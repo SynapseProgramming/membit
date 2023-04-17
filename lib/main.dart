@@ -39,10 +39,19 @@ class _MyHomePageState extends State<MyHomePage> {
     print(selectedindex);
   }
 
+  final List<Widget> pages = [
+    Container(
+        child: Text(
+      "hello dudes!",
+      maxLines: 2,
+    )),
+    Placeholder(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text("Hello World"),
+      body: SafeArea(child: pages[selectedindex]),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.grey,
         items: const <BottomNavigationBarItem>[
