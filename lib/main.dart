@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:membit/maindeck.dart';
 
 void main() {
   runApp(const MyApp());
@@ -45,8 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
       "hello dudes!",
       maxLines: 2,
     )),
-    Placeholder(),
-    Placeholder(),
+    Maindeck(),
   ];
 
   @override
@@ -57,8 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.grey,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
-          BottomNavigationBarItem(icon: Icon(Icons.delete), label: 'Delete'),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Decks'),
         ],
         currentIndex: selectedindex,
         onTap: _onItemTapped,
