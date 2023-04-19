@@ -46,6 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
       maxLines: 2,
     )),
     Placeholder(),
+    Placeholder(),
   ];
 
   @override
@@ -56,7 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.grey,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'fav'),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
+          BottomNavigationBarItem(icon: Icon(Icons.delete), label: 'Delete'),
         ],
         currentIndex: selectedindex,
         onTap: _onItemTapped,
