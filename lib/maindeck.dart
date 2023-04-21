@@ -1,5 +1,42 @@
 import 'package:flutter/material.dart';
 
+class Createdeck extends StatefulWidget {
+  const Createdeck({super.key});
+
+  @override
+  State<Createdeck> createState() => _CreatedeckState();
+}
+
+class _CreatedeckState extends State<Createdeck> {
+  String? deckName;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: 20,),
+        Text(
+          'Add Deck',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 20,),
+        TextField(
+          decoration: const InputDecoration(
+            hintText: 'Deck Name',
+          ),
+          onSubmitted: (text) {
+            print('$text');
+            // Handle the entered text here
+          },
+        )
+      ],
+    );
+  }
+}
+
 class Maindeck extends StatefulWidget {
   @override
   State<Maindeck> createState() => _MaindeckState();
@@ -9,7 +46,9 @@ class _MaindeckState extends State<Maindeck> {
   var selectedIndex = 0;
 
   var pages = <Widget>[
-            Padding(child: const Text("hello"), padding: EdgeInsets.all(8.0)),Placeholder()];
+    Padding(child: const Text("hello"), padding: EdgeInsets.all(8.0)),
+    Createdeck()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -22,19 +61,19 @@ class _MaindeckState extends State<Maindeck> {
                     selectedIndex = 1;
                   });
                 },
-                icon: Icon(Icons.add)),
+                icon: const Icon(Icons.add)),
             actions: [
               IconButton(
                   onPressed: () {
                     print("Delete button pressed");
-                  setState(() {
-                    selectedIndex = 0;
-                  });
+                    setState(() {
+                      selectedIndex = 0;
+                    });
                   },
-                  icon: Icon(Icons.delete)),
+                  icon: const Icon(Icons.delete)),
             ],
-            title: Center(
-              child: const Text(
+            title: const Center(
+              child: Text(
                 'Decks',
               ),
             )),
