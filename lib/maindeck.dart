@@ -14,7 +14,9 @@ class _CreatedeckState extends State<Createdeck> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 20,),
+        SizedBox(
+          height: 20,
+        ),
         Text(
           'Add Deck',
           style: TextStyle(
@@ -22,7 +24,9 @@ class _CreatedeckState extends State<Createdeck> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 20,),
+        SizedBox(
+          height: 20,
+        ),
         TextField(
           decoration: const InputDecoration(
             hintText: 'Deck Name',
@@ -31,6 +35,35 @@ class _CreatedeckState extends State<Createdeck> {
             print('$text');
             // Handle the entered text here
           },
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Row(
+          children: [
+            SizedBox(
+              width: 10,
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                print("confimation!");
+              },
+              icon: const Icon(Icons.check),
+              label: const Text("Add"),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+            ),
+            SizedBox(
+              width: 30,
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                print("deletion!");
+              },
+              icon: const Icon(Icons.cancel),
+              label: const Text("Cancel"),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            )
+          ],
         )
       ],
     );
