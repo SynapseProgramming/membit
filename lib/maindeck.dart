@@ -6,6 +6,11 @@ class Maindeck extends StatefulWidget {
 }
 
 class _MaindeckState extends State<Maindeck> {
+  var selectedIndex = 0;
+
+  var pages = <Widget>[
+            Padding(child: const Text("hello"), padding: EdgeInsets.all(8.0)),Placeholder()];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,12 +18,18 @@ class _MaindeckState extends State<Maindeck> {
             leading: IconButton(
                 onPressed: () {
                   print("Add button pressed");
+                  setState(() {
+                    selectedIndex = 1;
+                  });
                 },
                 icon: Icon(Icons.add)),
             actions: [
               IconButton(
                   onPressed: () {
                     print("Delete button pressed");
+                  setState(() {
+                    selectedIndex = 0;
+                  });
                   },
                   icon: Icon(Icons.delete)),
             ],
@@ -27,7 +38,6 @@ class _MaindeckState extends State<Maindeck> {
                 'Decks',
               ),
             )),
-        body:
-            Padding(child: const Text("hello"), padding: EdgeInsets.all(8.0)));
+        body: pages[selectedIndex]);
   }
 }
