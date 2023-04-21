@@ -16,5 +16,10 @@ class IsarDb {
     }
     return Future.value(Isar.getInstance());
   }
+
+  Future<void> saveDeck(Deck newDeck) async {
+    final isar = await db;
+    isar.writeTxnSync(() => isar.decks.putSync(newDeck));
+  }
   
 }
