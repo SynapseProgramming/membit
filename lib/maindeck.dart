@@ -14,17 +14,17 @@ class _CreatedeckState extends State<Createdeck> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
-        Text(
+        const Text(
           'Add Deck',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         TextField(
@@ -33,26 +33,29 @@ class _CreatedeckState extends State<Createdeck> {
           ),
           onSubmitted: (text) {
             print('$text');
-            // Handle the entered text here
+            setState(() {
+              deckName = text;
+            });
           },
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Row(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             ElevatedButton.icon(
               onPressed: () {
-                print("confimation!");
+                print(deckName);
+                //TODO: Add the selected deckname into the database
               },
               icon: const Icon(Icons.check),
               label: const Text("Add"),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
             ),
-            SizedBox(
+            const SizedBox(
               width: 30,
             ),
             ElevatedButton.icon(
