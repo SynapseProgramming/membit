@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:membit/maindeck.dart';
-
+import 'package:membit/isardb.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,13 +17,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Membit'),
+      home: MyHomePage(title: 'Membit'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -34,13 +34,15 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int selectedindex = 0;
 
+  final db = IsarDb();
+
   void _onItemTapped(int index) {
     setState(() {
       selectedindex = index;
     });
     print(selectedindex);
   }
-
+   
   final List<Widget> pages = [
     Container(
         child: Text(
@@ -52,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
       body: SafeArea(child: pages[selectedindex]),
       bottomNavigationBar: BottomNavigationBar(
