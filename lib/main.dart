@@ -13,13 +13,32 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Membit',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Membit'),
-    );
+        title: 'Membit',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home:
+            DbAccess(dbinstance: IsarDb(), child: MyHomePage(title: 'Membit')));
   }
+}
+
+class DbAccess extends InheritedWidget {
+  const DbAccess({super.key, required this.dbinstance, required super.child});
+
+  final IsarDb dbinstance;
+
+  static DbAccess? maybeOf(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<DbAccess>();
+  }
+
+  static DbAccess of(BuildContext context) {
+    final DbAccess? res = maybeOf(context);
+    assert(res != null, 'no isarDB instance found');
+    return res!;
+  }
+
+  @override
+  bool updateShouldNotify(DbAccess oldWidget) => true;
 }
 
 class MyHomePage extends StatefulWidget {
@@ -42,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     print(selectedindex);
   }
-   
+
   final List<Widget> pages = [
     Container(
         child: Text(
@@ -54,7 +73,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-  
     return Scaffold(
       body: SafeArea(child: pages[selectedindex]),
       bottomNavigationBar: BottomNavigationBar(
