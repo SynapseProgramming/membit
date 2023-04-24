@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:membit/entities/deck.dart';
 import 'package:membit/isardb.dart';
+import 'package:membit/main.dart';
 
 class Createdeck extends StatefulWidget {
   const Createdeck({super.key});
@@ -13,6 +15,7 @@ class _CreatedeckState extends State<Createdeck> {
 
   @override
   Widget build(BuildContext context) {
+    final dbref = DbAccess.of(context).dbinstance;
     return Column(
       children: [
         const SizedBox(
@@ -50,7 +53,9 @@ class _CreatedeckState extends State<Createdeck> {
             ElevatedButton.icon(
               onPressed: () {
                 print(deckName);
-                //TODO: Add the selected deckname into the database
+                Deck newdeck = Deck();
+                newdeck.name = deckName.toString();
+                dbref.saveDeck(newdeck);
               },
               icon: const Icon(Icons.check),
               label: const Text("Add"),
