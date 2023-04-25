@@ -4,7 +4,9 @@ import 'package:membit/isardb.dart';
 import 'package:membit/main.dart';
 
 class Createdeck extends StatefulWidget {
-  const Createdeck({super.key});
+  const Createdeck({super.key, required this.gohome});
+
+  final Function() gohome;
 
   @override
   State<Createdeck> createState() => _CreatedeckState();
@@ -68,6 +70,7 @@ class _CreatedeckState extends State<Createdeck> {
               onPressed: () {
                 print("deletion!");
                 // TODO: add in a setter function in the maindeck state class to switch the view back to the original home view
+                widget.gohome();
               },
               icon: const Icon(Icons.cancel),
               label: const Text("Cancel"),
@@ -89,13 +92,22 @@ class Maindeck extends StatefulWidget {
 class _MaindeckState extends State<Maindeck> {
   var selectedIndex = 0;
 
-  var pages = <Widget>[
-    Padding(child: const Text("hello"), padding: EdgeInsets.all(8.0)),
-    Createdeck()
-  ];
+  void returnHome() {
+    setState(() {
+      selectedIndex = 0;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    var pages = <Widget>[
+      Padding(child: const Text("hello"), padding: EdgeInsets.all(8.0)),
+      Createdeck(
+        gohome: returnHome,
+      )
+    ];
+
     return Scaffold(
         appBar: AppBar(
             leading: IconButton(
