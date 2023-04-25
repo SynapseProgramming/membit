@@ -69,7 +69,6 @@ class _CreatedeckState extends State<Createdeck> {
             ElevatedButton.icon(
               onPressed: () {
                 print("deletion!");
-                // TODO: add in a setter function in the maindeck state class to switch the view back to the original home view
                 widget.gohome();
               },
               icon: const Icon(Icons.cancel),

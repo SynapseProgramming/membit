@@ -17,6 +17,11 @@ class IsarDb {
     return Future.value(Isar.getInstance());
   }
 
+  Stream<List<Deck>> listenDecks() async* {
+    final isar = await db;
+    yield* isar.decks.where().watch(fireImmediately: true);
+  }
+
   Future<void> saveDeck(Deck newDeck) async {
     final isar = await db;
     final matchDecks = isar.decks.filter().nameMatches(newDeck.name);
