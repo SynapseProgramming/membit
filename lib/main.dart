@@ -12,13 +12,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Membit',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home:
-            DbAccess(dbinstance: IsarDb(), child: MyHomePage(title: 'Membit')));
+    return DbAccess(
+      dbinstance: IsarDb(),
+      child: MaterialApp(
+          title: 'Membit',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: MyHomePage(title: 'Membit')),
+    );
   }
 }
 
