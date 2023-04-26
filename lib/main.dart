@@ -55,7 +55,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int selectedindex = 0;
 
-
   void _onItemTapped(int index) {
     setState(() {
       selectedindex = index;
@@ -75,7 +74,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: pages[selectedindex]),
+      body: SafeArea(
+          child: IndexedStack(
+        index: selectedindex,
+        children: pages,
+      )),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.grey,
         items: const <BottomNavigationBarItem>[
