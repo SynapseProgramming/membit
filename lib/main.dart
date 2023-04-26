@@ -55,7 +55,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int selectedindex = 0;
 
-  final db = IsarDb();
 
   void _onItemTapped(int index) {
     setState(() {
