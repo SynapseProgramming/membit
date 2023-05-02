@@ -1,24 +1,26 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:membit/entities/deck.dart';
 import 'package:membit/isardb.dart';
 import 'package:membit/main.dart';
+import 'package:membit/router.gr.dart';
 
-class Createdeck extends StatefulWidget {
-  const Createdeck({super.key, required this.gohome});
-
-  final Function() gohome;
+@RoutePage()
+class CreatedeckScreen extends StatefulWidget {
+  const CreatedeckScreen({super.key});
 
   @override
-  State<Createdeck> createState() => _CreatedeckState();
+  State<CreatedeckScreen> createState() => _CreatedeckScreenState();
 }
 
-class _CreatedeckState extends State<Createdeck> {
+class _CreatedeckScreenState extends State<CreatedeckScreen> {
   String? deckName;
 
   @override
   Widget build(BuildContext context) {
     final dbref = DbAccess.of(context).dbinstance;
+    var router = context.router;
     return Column(
       children: [
         const SizedBox(
@@ -70,7 +72,7 @@ class _CreatedeckState extends State<Createdeck> {
             ElevatedButton.icon(
               onPressed: () {
                 print("deletion!");
-                widget.gohome();
+                router.pushNamed("list");
               },
               icon: const Icon(Icons.cancel),
               label: const Text("Cancel"),
@@ -80,6 +82,17 @@ class _CreatedeckState extends State<Createdeck> {
         )
       ],
     );
+  }
+}
+
+@RoutePage()
+class DeckListScreen extends StatelessWidget {
+  const DeckListScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+        child: const Text("hello"), padding: EdgeInsets.all(8.0));
   }
 }
 
@@ -101,12 +114,10 @@ class _DeckScreenState extends State<DeckScreen> {
 
   @override
   Widget build(BuildContext context) {
-
+    var router = context.router;
     var pages = <Widget>[
       Padding(child: const Text("hello"), padding: EdgeInsets.all(8.0)),
-      Createdeck(
-        gohome: returnHome,
-      )
+      CreatedeckScreen()
     ];
 
     return Scaffold(
@@ -114,18 +125,19 @@ class _DeckScreenState extends State<DeckScreen> {
             leading: IconButton(
                 onPressed: () {
                   print("Add button pressed");
-                  setState(() {
-                    selectedIndex = 1;
-                  });
+                  router.push(const CreatedeckRoute());
+                  // setState(() {
+                  //   selectedIndex = 1;
+                  // });
                 },
                 icon: const Icon(Icons.add)),
             actions: [
               IconButton(
                   onPressed: () {
                     print("Delete button pressed");
-                    setState(() {
-                      selectedIndex = 0;
-                    });
+                    // setState(() {
+                    //   selectedIndex = 0;
+                    // });
                   },
                   icon: const Icon(Icons.delete)),
             ],
@@ -134,6 +146,7 @@ class _DeckScreenState extends State<DeckScreen> {
                 'Decks',
               ),
             )),
-        body: pages[selectedIndex]);
+        // body: pages[selectedIndex]);
+        body: AutoRouter());
   }
 }

@@ -33,6 +33,18 @@ abstract class $AppRouter extends _i4.RootStackRouter {
         child: _i2.HomeScreen(),
       );
     },
+    CreatedeckRoute.name: (routeData) {
+      return _i4.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i3.CreatedeckScreen(),
+      );
+    },
+    DeckListRoute.name: (routeData) {
+      return _i4.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i3.DeckListScreen(),
+      );
+    },
     DeckRoute.name: (routeData) {
       return _i4.AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -81,6 +93,34 @@ class HomeRoute extends _i4.PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRoute';
+
+  static const _i4.PageInfo<void> page = _i4.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i3.CreatedeckScreen]
+class CreatedeckRoute extends _i4.PageRouteInfo<void> {
+  const CreatedeckRoute({List<_i4.PageRouteInfo>? children})
+      : super(
+          CreatedeckRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CreatedeckRoute';
+
+  static const _i4.PageInfo<void> page = _i4.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i3.DeckListScreen]
+class DeckListRoute extends _i4.PageRouteInfo<void> {
+  const DeckListRoute({List<_i4.PageRouteInfo>? children})
+      : super(
+          DeckListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DeckListRoute';
 
   static const _i4.PageInfo<void> page = _i4.PageInfo<void>(name);
 }

@@ -8,7 +8,10 @@ class AppRouter extends $AppRouter {
   List<AutoRoute> get routes => [
         AutoRoute(path: '/', page: DashboardRoute.page, children: [
           AutoRoute(path: 'home', page: HomeRoute.page),
-          AutoRoute(path: 'deck', page: DeckRoute.page),
+          AutoRoute(path: 'deck', page: DeckRoute.page, children: [
+            AutoRoute(path: 'list', page: DeckListRoute.page,initial: true),
+            AutoRoute(path: 'create', page: CreatedeckRoute.page)
+          ]),
         ])
       ];
 }
