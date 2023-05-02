@@ -7,11 +7,11 @@ import 'package:membit/router.dart';
 import 'package:membit/router.gr.dart';
 
 void main() {
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-   MyApp({super.key});
+  MyApp({super.key});
 
   final _appRouter = AppRouter();
 
@@ -54,14 +54,13 @@ class DbAccess extends InheritedWidget {
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({super.key});
 
-  final String title="membit";
+  final String title = "membit";
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(

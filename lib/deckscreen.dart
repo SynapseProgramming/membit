@@ -72,7 +72,7 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
             ElevatedButton.icon(
               onPressed: () {
                 print("deletion!");
-                router.pushNamed("list");
+                router.navigateNamed('list');
               },
               icon: const Icon(Icons.cancel),
               label: const Text("Cancel"),
@@ -115,29 +115,18 @@ class _DeckScreenState extends State<DeckScreen> {
   @override
   Widget build(BuildContext context) {
     var router = context.router;
-    var pages = <Widget>[
-      Padding(child: const Text("hello"), padding: EdgeInsets.all(8.0)),
-      CreatedeckScreen()
-    ];
-
     return Scaffold(
         appBar: AppBar(
             leading: IconButton(
                 onPressed: () {
                   print("Add button pressed");
-                  router.push(const CreatedeckRoute());
-                  // setState(() {
-                  //   selectedIndex = 1;
-                  // });
+                  router.navigateNamed("create");
                 },
                 icon: const Icon(Icons.add)),
             actions: [
               IconButton(
                   onPressed: () {
                     print("Delete button pressed");
-                    // setState(() {
-                    //   selectedIndex = 0;
-                    // });
                   },
                   icon: const Icon(Icons.delete)),
             ],
@@ -146,7 +135,6 @@ class _DeckScreenState extends State<DeckScreen> {
                 'Decks',
               ),
             )),
-        // body: pages[selectedIndex]);
-        body: AutoRouter());
+        body: const AutoRouter());
   }
 }
