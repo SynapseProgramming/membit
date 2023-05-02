@@ -5,9 +5,7 @@ import 'package:membit/router.gr.dart';
 @AutoRouterConfig(replaceInRouteName: 'Screen,Route')
 class AppRouter extends $AppRouter {
   @override
-  List<AutoRoute> get routes =>
-      // [AutoRoute(page: DeckRoute.page), AutoRoute(page: HomeRoute.page)];
-      [
+  List<AutoRoute> get routes => [
         AutoRoute(path: '/', page: DashboardRoute.page, children: [
           AutoRoute(path: 'home', page: HomeRoute.page),
           AutoRoute(path: 'deck', page: DeckRoute.page),
