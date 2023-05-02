@@ -3,25 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:membit/deckscreen.dart';
 import 'package:membit/isardb.dart';
 import 'package:membit/homescreen.dart';
+import 'package:membit/router.dart';
+import 'package:membit/router.gr.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   MyApp({super.key});
+
+  final _appRouter = AppRouter();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return DbAccess(
       dbinstance: IsarDb(),
-      child: MaterialApp(
-          title: 'Membit',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: MyHomePage(title: 'Membit')),
+      child: MaterialApp.router(
+        title: 'Membit',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        routerConfig: _appRouter.config(),
+      ),
     );
   }
 }
@@ -45,16 +50,17 @@ class DbAccess extends InheritedWidget {
   bool updateShouldNotify(DbAccess oldWidget) => true;
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({super.key, required this.title});
+@RoutePage()
+class DashboardScreen extends StatefulWidget {
+  DashboardScreen({super.key});
 
-  final String title;
+  final String title="membit";
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _DashboardScreenState extends State<DashboardScreen> {
   int selectedindex = 0;
 
   void _onItemTapped(int index) {
@@ -69,30 +75,40 @@ class _MyHomePageState extends State<MyHomePage> {
     DeckScreen(),
   ];
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          child: IndexedStack(
-        index: selectedindex,
-        children: pages,
-      )),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Decks'),
-        ],
-        currentIndex: selectedindex,
-        onTap: _onItemTapped,
-      ),
-    );
-  }
-
   // @override
   // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     body: SafeArea(
+  //         child: IndexedStack(
+  //       index: selectedindex,
+  //       children: pages,
+  //     )),
+  //     bottomNavigationBar: BottomNavigationBar(
+  //       backgroundColor: Colors.grey,
+  //       items: const <BottomNavigationBarItem>[
+  //         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+  //         BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Decks'),
+  //       ],
+  //       currentIndex: selectedindex,
+  //       onTap: _onItemTapped,
+  //     ),
+  //   );
+  // }
 
-  // return AutoTabsScaffold(routes: [
-
-  // ],);
+  @override
+  Widget build(BuildContext context) {
+    return AutoTabsScaffold(
+      routes: const [HomeRoute(), DeckRoute()],
+      bottomNavigationBuilder: (_, tabsRouter) {
+        return BottomNavigationBar(
+          currentIndex: tabsRouter.activeIndex,
+          onTap: tabsRouter.setActiveIndex,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Decks'),
+          ],
+        );
+      },
+    );
+  }
 }
