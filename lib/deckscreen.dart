@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:membit/entities/deck.dart';
 import 'package:membit/isardb.dart';
@@ -82,13 +83,14 @@ class _CreatedeckState extends State<Createdeck> {
   }
 }
 
-class Maindeck extends StatefulWidget {
-  const Maindeck({super.key});
+@RoutePage()
+class DeckScreen extends StatefulWidget {
+  const DeckScreen({super.key});
   @override
-  State<Maindeck> createState() => _MaindeckState();
+  State<DeckScreen> createState() => _DeckScreenState();
 }
 
-class _MaindeckState extends State<Maindeck> {
+class _DeckScreenState extends State<DeckScreen> {
   var selectedIndex = 0;
 
   void returnHome() {

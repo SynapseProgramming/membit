@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:membit/maindeck.dart';
+import 'package:membit/deckscreen.dart';
 import 'package:membit/isardb.dart';
+import 'package:membit/homescreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -63,12 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   final List<Widget> pages = [
-    Container(
-        child: Text(
-      "hello dudes!",
-      maxLines: 2,
-    )),
-    Maindeck(),
+    HomeScreen(),
+    DeckScreen(),
   ];
 
   @override
@@ -90,4 +88,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+
+  // return AutoTabsScaffold(routes: [
+
+  // ],);
 }
