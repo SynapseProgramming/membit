@@ -61,39 +61,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  int selectedindex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      selectedindex = index;
-    });
-    print(selectedindex);
-  }
-
-  final List<Widget> pages = [
-    HomeScreen(),
-    DeckScreen(),
-  ];
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     body: SafeArea(
-  //         child: IndexedStack(
-  //       index: selectedindex,
-  //       children: pages,
-  //     )),
-  //     bottomNavigationBar: BottomNavigationBar(
-  //       backgroundColor: Colors.grey,
-  //       items: const <BottomNavigationBarItem>[
-  //         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-  //         BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Decks'),
-  //       ],
-  //       currentIndex: selectedindex,
-  //       onTap: _onItemTapped,
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
