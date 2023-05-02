@@ -1,68 +1,80 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:membit/deckscreen.dart';
+import 'package:membit/isardb.dart';
+import 'package:membit/homescreen.dart';
+import 'package:membit/router.dart';
+import 'package:membit/router.gr.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final _appRouter = AppRouter();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Membit',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return DbAccess(
+      dbinstance: IsarDb(),
+      child: MaterialApp.router(
+        title: 'Membit',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        routerConfig: _appRouter.config(),
       ),
-      home: const MyHomePage(title: 'Membit'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class DbAccess extends InheritedWidget {
+  const DbAccess({super.key, required this.dbinstance, required super.child});
 
-  final String title;
+  final IsarDb dbinstance;
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int selectedindex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      selectedindex = index;
-    });
-    print(selectedindex);
+  static DbAccess? maybeOf(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<DbAccess>();
   }
 
-  final List<Widget> pages = [
-    Container(
-        child: Text(
-      "hello dudes!",
-      maxLines: 2,
-    )),
-    Placeholder(),
-    Placeholder(),
-  ];
+  static DbAccess of(BuildContext context) {
+    final DbAccess? res = maybeOf(context);
+    assert(res != null, 'no isarDB instance found');
+    return res!;
+  }
 
   @override
+  bool updateShouldNotify(DbAccess oldWidget) => true;
+}
+
+@RoutePage()
+class DashboardScreen extends StatefulWidget {
+  DashboardScreen({super.key});
+
+  final String title = "membit";
+
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(child: pages[selectedindex]),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
-          BottomNavigationBarItem(icon: Icon(Icons.delete), label: 'Delete'),
-        ],
-        currentIndex: selectedindex,
-        onTap: _onItemTapped,
-      ),
+    return AutoTabsScaffold(
+      routes: const [HomeRoute(), DeckRoute()],
+      bottomNavigationBuilder: (_, tabsRouter) {
+        return BottomNavigationBar(
+          currentIndex: tabsRouter.activeIndex,
+          onTap: tabsRouter.setActiveIndex,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Decks'),
+          ],
+        );
+      },
     );
   }
 }
