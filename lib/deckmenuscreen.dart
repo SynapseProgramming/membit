@@ -6,18 +6,21 @@ import 'package:membit/router.gr.dart';
 
 @RoutePage()
 class DeckMenuScreen extends StatelessWidget {
-  const DeckMenuScreen({super.key});
+  const DeckMenuScreen({super.key, required this.DeckName});
+
+  final String DeckName;
 
   @override
   Widget build(BuildContext context) {
+    final router = context.router;
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.green,
             leading: IconButton(
                 onPressed: () {
-                  print("Add button pressed");
+                  router.pop();
                 },
-                icon: const Icon(Icons.add)),
+                icon: const Icon(Icons.arrow_back)),
             actions: [
               IconButton(
                   onPressed: () {
@@ -30,9 +33,9 @@ class DeckMenuScreen extends StatelessWidget {
                 'Card',
               ),
             )),
-        body: const Padding(
-          padding: EdgeInsets.all(16),
-          child: Text("niggaa"),
+        body:  Padding(
+          padding: const EdgeInsets.all(16),
+          child: Text(DeckName),
         ));
   }
 }

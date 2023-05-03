@@ -85,7 +85,6 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
   }
 }
 
-
 @RoutePage()
 class DeckRouterScreen extends StatelessWidget {
   const DeckRouterScreen({super.key});
@@ -95,8 +94,6 @@ class DeckRouterScreen extends StatelessWidget {
     return const AutoRouter();
   }
 }
-
-
 
 @RoutePage()
 class DeckListScreen extends StatelessWidget {
@@ -120,7 +117,7 @@ class DeckListScreen extends StatelessWidget {
                   return ElevatedButton(
                     onPressed: () {
                       print("deck button pressed!");
-                      router?.navigate(const DeckMenuRoute());
+                      router?.navigate(DeckMenuRoute(DeckName: course.name));
                     },
                     child: Text(course.name),
                   );

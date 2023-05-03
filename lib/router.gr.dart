@@ -59,9 +59,13 @@ abstract class $AppRouter extends _i5.RootStackRouter {
       );
     },
     DeckMenuRoute.name: (routeData) {
+      final args = routeData.argsAs<DeckMenuRouteArgs>();
       return _i5.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.DeckMenuScreen(),
+        child: _i4.DeckMenuScreen(
+          key: args.key,
+          DeckName: args.DeckName,
+        ),
       );
     },
   };
@@ -168,14 +172,38 @@ class DeckRoute extends _i5.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.DeckMenuScreen]
-class DeckMenuRoute extends _i5.PageRouteInfo<void> {
-  const DeckMenuRoute({List<_i5.PageRouteInfo>? children})
-      : super(
+class DeckMenuRoute extends _i5.PageRouteInfo<DeckMenuRouteArgs> {
+  DeckMenuRoute({
+    _i6.Key? key,
+    required String DeckName,
+    List<_i5.PageRouteInfo>? children,
+  }) : super(
           DeckMenuRoute.name,
+          args: DeckMenuRouteArgs(
+            key: key,
+            DeckName: DeckName,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'DeckMenuRoute';
 
-  static const _i5.PageInfo<void> page = _i5.PageInfo<void>(name);
+  static const _i5.PageInfo<DeckMenuRouteArgs> page =
+      _i5.PageInfo<DeckMenuRouteArgs>(name);
+}
+
+class DeckMenuRouteArgs {
+  const DeckMenuRouteArgs({
+    this.key,
+    required this.DeckName,
+  });
+
+  final _i6.Key? key;
+
+  final String DeckName;
+
+  @override
+  String toString() {
+    return 'DeckMenuRouteArgs{key: $key, DeckName: $DeckName}';
+  }
 }
