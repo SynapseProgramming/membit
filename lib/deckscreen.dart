@@ -91,8 +91,29 @@ class DeckListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-        child: const Text("hello"), padding: EdgeInsets.all(8.0));
+    final dbref = DbAccess.of(context).dbinstance;
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: StreamBuilder<List<Deck>>(
+        stream: dbref.listenDecks(),
+        builder: (context, snapshot) => GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          scrollDirection: Axis.vertical,
+          children: snapshot.hasData
+              ? snapshot.data!.map((course) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      print("deck button pressed!");
+                    },
+                    child: Text(course.name),
+                  );
+                }).toList()
+              : [],
+        ),
+      ),
+    );
   }
 }
 
