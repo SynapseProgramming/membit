@@ -118,20 +118,8 @@ class DeckListScreen extends StatelessWidget {
 }
 
 @RoutePage()
-class DeckScreen extends StatefulWidget {
+class DeckScreen extends StatelessWidget {
   const DeckScreen({super.key});
-  @override
-  State<DeckScreen> createState() => _DeckScreenState();
-}
-
-class _DeckScreenState extends State<DeckScreen> {
-  var selectedIndex = 0;
-
-  void returnHome() {
-    setState(() {
-      selectedIndex = 0;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
