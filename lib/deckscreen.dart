@@ -85,6 +85,19 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
   }
 }
 
+
+@RoutePage()
+class DeckRouterScreen extends StatelessWidget {
+  const DeckRouterScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const AutoRouter();
+  }
+}
+
+
+
 @RoutePage()
 class DeckListScreen extends StatelessWidget {
   const DeckListScreen({super.key});
@@ -92,6 +105,7 @@ class DeckListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dbref = DbAccess.of(context).dbinstance;
+    final router = context.router.parent<StackRouter>();
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: StreamBuilder<List<Deck>>(
@@ -106,6 +120,7 @@ class DeckListScreen extends StatelessWidget {
                   return ElevatedButton(
                     onPressed: () {
                       print("deck button pressed!");
+                      router?.navigate(const DeckMenuRoute());
                     },
                     child: Text(course.name),
                   );
