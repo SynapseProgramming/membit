@@ -42,10 +42,11 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
           decoration: const InputDecoration(
             hintText: 'Deck Name',
           ),
-          onSubmitted: (text) {
+          onChanged: (text) {
             setState(() {
               deckName = text;
             });
+            
           },
         ),
         const SizedBox(
