@@ -16,6 +16,8 @@ class CreatedeckScreen extends StatefulWidget {
 
 class _CreatedeckScreenState extends State<CreatedeckScreen> {
   String? deckName;
+  var snack = const SnackBar(content: Text("Saved Deck!"));
+
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +63,7 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
                 Deck newdeck = Deck();
                 newdeck.name = deckName.toString();
                 dbref.saveDeck(newdeck);
+                ScaffoldMessenger.of(context).showSnackBar(snack);
               },
               icon: const Icon(Icons.check),
               label: const Text("Add"),
