@@ -38,16 +38,19 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
         const SizedBox(
           height: 20,
         ),
-        TextField(
-          decoration: const InputDecoration(
-            hintText: 'Deck Name',
+        Container(
+          width: 350,
+          child: TextField(
+            decoration: const InputDecoration(
+              hintText: 'Deck Name',
+            ),
+            onChanged: (text) {
+              setState(() {
+                deckName = text;
+              });
+              
+            },
           ),
-          onChanged: (text) {
-            setState(() {
-              deckName = text;
-            });
-            
-          },
         ),
         const SizedBox(
           height: 20,
@@ -55,7 +58,7 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
         Row(
           children: [
             const SizedBox(
-              width: 10,
+              width: 30,
             ),
             ElevatedButton.icon(
               onPressed: () {
