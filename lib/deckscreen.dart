@@ -43,7 +43,6 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
             hintText: 'Deck Name',
           ),
           onSubmitted: (text) {
-            print('$text');
             setState(() {
               deckName = text;
             });
@@ -59,7 +58,6 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
             ),
             ElevatedButton.icon(
               onPressed: () {
-                print(deckName);
                 Deck newdeck = Deck();
                 newdeck.name = deckName.toString();
                 dbref.saveDeck(newdeck);
@@ -74,7 +72,6 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
             ),
             ElevatedButton.icon(
               onPressed: () {
-                print("deletion!");
                 router.navigateNamed('list');
               },
               icon: const Icon(Icons.cancel),
@@ -119,7 +116,6 @@ class DeckListScreen extends StatelessWidget {
               ? snapshot.data!.map((course) {
                   return ElevatedButton(
                     onPressed: () {
-                      print("deck button pressed!");
                       router?.navigate(DeckMenuRoute(DeckName: course.name));
                     },
                     child: Text(course.name),
@@ -143,14 +139,12 @@ class DeckScreen extends StatelessWidget {
         appBar: AppBar(
             leading: IconButton(
                 onPressed: () {
-                  print("Add button pressed");
                   router.navigateNamed("create");
                 },
                 icon: const Icon(Icons.add)),
             actions: [
               IconButton(
                   onPressed: () {
-                    print("Delete button pressed");
                   },
                   icon: const Icon(Icons.delete)),
             ],

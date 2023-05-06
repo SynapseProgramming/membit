@@ -24,7 +24,6 @@ class DeckMenuScreen extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: () {
-                    print("Delete button pressed");
                   },
                   icon: const Icon(Icons.delete)),
             ],
