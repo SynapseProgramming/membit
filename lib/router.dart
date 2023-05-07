@@ -18,7 +18,10 @@ class AppRouter extends $AppRouter {
                   AutoRoute(path: 'create', page: CreatedeckRoute.page)
                 ],
                 initial: true),
-            AutoRoute(path: 'deckmenu', page: DeckMenuRoute.page)
+            AutoRoute(path: 'deckmenu', page: DeckMenuRoute.page, children: [
+              AutoRoute(
+                  path: 'deckmenumain', page: MainCardRoute.page, initial: true)
+            ])
           ])
         ])
       ];

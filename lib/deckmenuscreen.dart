@@ -5,6 +5,21 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:membit/router.gr.dart';
 
 @RoutePage()
+class MainCardScreen extends StatelessWidget {
+  const MainCardScreen({super.key});
+
+  final String Deckname = "test test";
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Text(Deckname),
+    );
+  }
+}
+
+@RoutePage()
 class DeckMenuScreen extends StatelessWidget {
   const DeckMenuScreen({super.key, required this.DeckName});
 
@@ -22,19 +37,13 @@ class DeckMenuScreen extends StatelessWidget {
                 },
                 icon: const Icon(Icons.arrow_back)),
             actions: [
-              IconButton(
-                  onPressed: () {
-                  },
-                  icon: const Icon(Icons.delete)),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
             ],
-            title: const Center(
+            title: Center(
               child: Text(
-                'Card',
+                DeckName,
               ),
             )),
-        body:  Padding(
-          padding: const EdgeInsets.all(16),
-          child: Text(DeckName),
-        ));
+        body: const AutoRouter());
   }
 }
