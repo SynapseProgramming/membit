@@ -17,74 +17,84 @@ class CreatedeckScreen extends StatefulWidget {
 class _CreatedeckScreenState extends State<CreatedeckScreen> {
   String? deckName;
   var snack = const SnackBar(content: Text("Saved Deck!"));
-
+  final GlobalKey<FormState> _formkey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     final dbref = DbAccess.of(context).dbinstance;
     var router = context.router;
-    return Column(
-      children: [
-        const SizedBox(
-          height: 20,
-        ),
-        const Text(
-          'Add Deck',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+    return Form(
+      key: _formkey,
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 20,
           ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Container(
-          width: 350,
-          child: TextField(
-            decoration: const InputDecoration(
-              hintText: 'Deck Name',
+          const Text(
+            'Add Deck',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
             ),
-            onChanged: (text) {
-              setState(() {
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Container(
+            width: 350,
+            child: TextFormField(
+              decoration: const InputDecoration(
+                  hintText: 'Deck Name',
+                  border: OutlineInputBorder(),
+                  errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red))),
+              onChanged: (text) {
                 deckName = text;
-              });
-              
-            },
+              },
+              validator: (value) {
+                if (value != null && value.isEmpty)
+                  return "please enter some text";
+                return null;
+              },
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Row(
-          children: [
-            const SizedBox(
-              width: 30,
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                Deck newdeck = Deck();
-                newdeck.name = deckName.toString();
-                dbref.saveDeck(newdeck);
-                ScaffoldMessenger.of(context).showSnackBar(snack);
-              },
-              icon: const Icon(Icons.check),
-              label: const Text("Add"),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-            ),
-            const SizedBox(
-              width: 30,
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                router.navigateNamed('list');
-              },
-              icon: const Icon(Icons.cancel),
-              label: const Text("Cancel"),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            )
-          ],
-        )
-      ],
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            children: [
+              const SizedBox(
+                width: 30,
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  bool valid = _formkey.currentState!.validate();
+                  if (valid) {
+                    Deck newdeck = Deck();
+                    newdeck.name = deckName.toString();
+                    dbref.saveDeck(newdeck);
+                    ScaffoldMessenger.of(context).showSnackBar(snack);
+                  }
+                },
+                icon: const Icon(Icons.check),
+                label: const Text("Add"),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+              ),
+              const SizedBox(
+                width: 30,
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  router.navigateNamed('list');
+                },
+                icon: const Icon(Icons.cancel),
+                label: const Text("Cancel"),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }
@@ -147,10 +157,7 @@ class DeckScreen extends StatelessWidget {
                 },
                 icon: const Icon(Icons.add)),
             actions: [
-              IconButton(
-                  onPressed: () {
-                  },
-                  icon: const Icon(Icons.delete)),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
             ],
             title: const Center(
               child: Text(
