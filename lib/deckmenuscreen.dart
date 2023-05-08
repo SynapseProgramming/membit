@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:isar/isar.dart';
 import 'package:membit/entities/deck.dart';
 import 'package:membit/router.gr.dart';
 
@@ -16,89 +17,110 @@ class AddCardScreen extends StatefulWidget {
 }
 
 class _AddCardScreenState extends State<AddCardScreen> {
-
   late String FrontName;
   late String BackName;
 
+  final GlobalKey<FormState> _formkey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     String title = 'Add cards to ' + widget.DeckName;
+
     var router = context.router;
     return SafeArea(
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+      child: Form(
+        key: _formkey,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 20,
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            width: 350,
-            child: TextField(
-              decoration: const InputDecoration(
-                hintText: 'Front',
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
-              onChanged: (text) {
-                FrontName = text;
-              },
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            width: 350,
-            child: TextField(
-              decoration: const InputDecoration(
-                hintText: 'Back',
-              ),
-              onChanged: (text) {
-                BackName = text;
-              },
+            const SizedBox(
+              height: 20,
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: [
-              const SizedBox(
-                width: 30,
-              ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  print(FrontName);
-                  print(BackName);
+            Container(
+              width: 350,
+              child: TextFormField(
+                decoration: const InputDecoration(
+                    hintText: 'Front',
+                    border: OutlineInputBorder(),
+                    errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red))),
+                onChanged: (text) {
+                  FrontName = text;
                 },
-                icon: const Icon(Icons.check),
-                label: const Text("Add"),
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-              ),
-              const SizedBox(
-                width: 30,
-              ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  print("kek");
-                  router.pop();
-                  
+                validator: (value) {
+                  if (value != null && value.isEmpty)
+                    return "please enter some text";
+                  return null;
                 },
-                icon: const Icon(Icons.cancel),
-                label: const Text("Cancel"),
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-              )
-            ],
-          )
-        ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: 350,
+              child: TextFormField(
+                decoration: const InputDecoration(
+                    hintText: 'Back',
+                    border: OutlineInputBorder(),
+                    errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red))),
+                onChanged: (text) {
+                  BackName = text;
+                },
+                validator: (value) {
+                  if (value != null && value.isEmpty)
+                    return "please enter some text";
+                  return null;
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                const SizedBox(
+                  width: 30,
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    bool valid = _formkey.currentState!.validate();
+                    if (valid) {
+                      print(FrontName);
+                      print(BackName);
+                    }
+                  },
+                  icon: const Icon(Icons.check),
+                  label: const Text("Add"),
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                ),
+                const SizedBox(
+                  width: 30,
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    print("kek");
+                    router.pop();
+                  },
+                  icon: const Icon(Icons.cancel),
+                  label: const Text("Cancel"),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
