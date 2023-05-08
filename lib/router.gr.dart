@@ -58,12 +58,6 @@ abstract class $AppRouter extends _i5.RootStackRouter {
         child: const _i3.DeckScreen(),
       );
     },
-    MainCardRoute.name: (routeData) {
-      return _i5.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i4.MainCardScreen(),
-      );
-    },
     DeckMenuRoute.name: (routeData) {
       final args = routeData.argsAs<DeckMenuRouteArgs>();
       return _i5.AutoRoutePage<dynamic>(
@@ -172,20 +166,6 @@ class DeckRoute extends _i5.PageRouteInfo<void> {
         );
 
   static const String name = 'DeckRoute';
-
-  static const _i5.PageInfo<void> page = _i5.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i4.MainCardScreen]
-class MainCardRoute extends _i5.PageRouteInfo<void> {
-  const MainCardRoute({List<_i5.PageRouteInfo>? children})
-      : super(
-          MainCardRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'MainCardRoute';
 
   static const _i5.PageInfo<void> page = _i5.PageInfo<void>(name);
 }
