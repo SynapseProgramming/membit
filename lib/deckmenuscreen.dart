@@ -27,6 +27,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
     String title = 'Add cards to ' + widget.DeckName;
 
     var router = context.router;
+    final frontTextController = TextEditingController();
+    final backTextController = TextEditingController();
+    
     return SafeArea(
       child: Form(
         key: _formkey,
@@ -48,6 +51,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
             Container(
               width: 350,
               child: TextFormField(
+                controller: frontTextController,
                 decoration: const InputDecoration(
                     hintText: 'Front',
                     border: OutlineInputBorder(),
@@ -69,6 +73,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
             Container(
               width: 350,
               child: TextFormField(
+                controller:backTextController,
                 decoration: const InputDecoration(
                     hintText: 'Back',
                     border: OutlineInputBorder(),
@@ -96,8 +101,11 @@ class _AddCardScreenState extends State<AddCardScreen> {
                   onPressed: () {
                     bool valid = _formkey.currentState!.validate();
                     if (valid) {
+                      //TODO: Add in db entry function here
                       print(FrontName);
                       print(BackName);
+                      frontTextController.clear();
+                      backTextController.clear();
                     }
                   },
                   icon: const Icon(Icons.check),
