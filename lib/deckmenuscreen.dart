@@ -19,6 +19,7 @@ class AddCardScreen extends StatefulWidget {
 class _AddCardScreenState extends State<AddCardScreen> {
   late String FrontName;
   late String BackName;
+  var snack = const SnackBar(content: Text("Saved Card!"));
 
   final GlobalKey<FormState> _formkey = GlobalKey();
 
@@ -29,7 +30,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
     var router = context.router;
     final frontTextController = TextEditingController();
     final backTextController = TextEditingController();
-    
+
     return SafeArea(
       child: Form(
         key: _formkey,
@@ -73,7 +74,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
             Container(
               width: 350,
               child: TextFormField(
-                controller:backTextController,
+                controller: backTextController,
                 decoration: const InputDecoration(
                     hintText: 'Back',
                     border: OutlineInputBorder(),
@@ -104,6 +105,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                       //TODO: Add in db entry function here
                       print(FrontName);
                       print(BackName);
+                      ScaffoldMessenger.of(context).showSnackBar(snack);
                       frontTextController.clear();
                       backTextController.clear();
                     }
