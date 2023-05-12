@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:isar/isar.dart';
+import 'package:membit/main.dart';
 import 'package:membit/entities/deck.dart';
 import 'package:membit/router.gr.dart';
 
@@ -25,6 +26,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final dbref = DbAccess.of(context).dbinstance;
     String title = 'Add cards to ' + widget.DeckName;
 
     var router = context.router;
@@ -99,12 +102,16 @@ class _AddCardScreenState extends State<AddCardScreen> {
                   width: 30,
                 ),
                 ElevatedButton.icon(
-                  onPressed: () {
+                  onPressed: () async {
                     bool valid = _formkey.currentState!.validate();
                     if (valid) {
                       //TODO: Add in db entry function here
+                      Deck? deckRef =  await dbref.getDeck(widget.DeckName);
+                      Deck notnullref = deckRef!;
+
                       print(FrontName);
                       print(BackName);
+                      print(notnullref.name);
                       ScaffoldMessenger.of(context).showSnackBar(snack);
                       frontTextController.clear();
                       backTextController.clear();
