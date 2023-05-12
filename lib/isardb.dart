@@ -41,4 +41,12 @@ class IsarDb {
     final isar = await db;
     isar.writeTxnSync(() => isar.cards.putSync(newCard));
   }
+
+  Future<List<Card>> getCardsFor(Deck deck) async {
+    final isar = await db;
+    return await isar.cards
+        .filter()
+        .deck((q) => q.idEqualTo(deck.id))
+        .findAll();
+  }
 }
