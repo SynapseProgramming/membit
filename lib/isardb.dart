@@ -36,4 +36,9 @@ class IsarDb {
     final match = isar.decks.filter().nameMatches(deckName);
     return match.findFirst();
   }
+
+  Future<void> saveCard(Card newCard) async {
+    final isar = await db;
+    isar.writeTxnSync(() => isar.cards.putSync(newCard));
+  }
 }

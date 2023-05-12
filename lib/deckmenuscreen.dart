@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:isar/isar.dart';
 import 'package:membit/main.dart';
 import 'package:membit/entities/deck.dart';
+import 'package:membit/entities/card.dart' as deckcard;
 import 'package:membit/router.gr.dart';
 
 @RoutePage()
@@ -26,7 +27,6 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     final dbref = DbAccess.of(context).dbinstance;
     String title = 'Add cards to ' + widget.DeckName;
 
@@ -105,13 +105,16 @@ class _AddCardScreenState extends State<AddCardScreen> {
                   onPressed: () async {
                     bool valid = _formkey.currentState!.validate();
                     if (valid) {
-                      //TODO: Add in db entry function here
-                      Deck? deckRef =  await dbref.getDeck(widget.DeckName);
+                      Deck? deckRef = await dbref.getDeck(widget.DeckName);
                       Deck notnullref = deckRef!;
 
-                      print(FrontName);
-                      print(BackName);
-                      print(notnullref.name);
+                      final newCard = deckcard.Card()
+                        ..front = FrontName
+                        ..back = BackName
+                        ..difficulty=1
+                        ..deck.value = notnullref;
+                      
+                      await dbref.saveCard(newCard);
                       ScaffoldMessenger.of(context).showSnackBar(snack);
                       frontTextController.clear();
                       backTextController.clear();
