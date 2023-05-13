@@ -239,7 +239,12 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
                     ),
                     backgroundColor: Colors.blue),
               ),
-              DataTable(columns: _columns(), rows: rows)
+              Container(
+                height: 450,
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: DataTable(columns: _columns(), rows: rows)),
+              )
             ],
           ),
         ));
