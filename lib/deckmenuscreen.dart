@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:isar/isar.dart';
+import 'package:membit/isardb.dart';
 import 'package:membit/main.dart';
 import 'package:membit/entities/deck.dart';
 import 'package:membit/entities/card.dart' as deckcard;
@@ -111,9 +112,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
                       final newCard = deckcard.Card()
                         ..front = FrontName
                         ..back = BackName
-                        ..difficulty=1
+                        ..difficulty = 1
                         ..deck.value = notnullref;
-                      
+
                       await dbref.saveCard(newCard);
                       ScaffoldMessenger.of(context).showSnackBar(snack);
                       frontTextController.clear();
@@ -147,14 +148,47 @@ class _AddCardScreenState extends State<AddCardScreen> {
 }
 
 @RoutePage()
-class DeckMenuScreen extends StatelessWidget {
-  const DeckMenuScreen({super.key, required this.DeckName});
+class DeckMenuScreen extends StatefulWidget {
+  DeckMenuScreen({super.key, required this.DeckName});
 
   final String DeckName;
 
   @override
+  State<DeckMenuScreen> createState() => _DeckMenuScreenState();
+}
+
+class _DeckMenuScreenState extends State<DeckMenuScreen> {
+  List<DataColumn> _columns() {
+    return [
+      const DataColumn(label: Text('Front')),
+      const DataColumn(label: Text('Back'))
+    ];
+  }
+
+  List<DataRow> rows = [
+    const DataRow(cells: [DataCell(Text("no")), DataCell(Text("data"))])
+  ];
+
+  Future<void> getRows(IsarDb db) async {
+    Deck? nulldeck = await db.getDeck(widget.DeckName);
+    Deck deck = nulldeck!;
+    List<deckcard.Card> cards = await db.getCardsFor(deck);
+    setState(() {
+      rows.clear();
+      rows = cards
+          .map((e) =>
+              DataRow(cells: [DataCell(Text(e.front)), DataCell(Text(e.back))]))
+          .toList();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final router = context.router;
+    final dbref = DbAccess.of(context).dbinstance;
+
+    getRows(dbref);
+
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.green,
@@ -175,7 +209,7 @@ class DeckMenuScreen extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              Text(DeckName,
+              Text(widget.DeckName,
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
               const SizedBox(height: 20),
               ElevatedButton(
@@ -195,7 +229,7 @@ class DeckMenuScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   print("Add cards pressed");
-                  router.navigate(AddCardRoute(DeckName: DeckName));
+                  router.navigate(AddCardRoute(DeckName: widget.DeckName));
                 },
                 child: Text('Add Cards'),
                 style: ElevatedButton.styleFrom(
@@ -205,6 +239,7 @@ class DeckMenuScreen extends StatelessWidget {
                     ),
                     backgroundColor: Colors.blue),
               ),
+              DataTable(columns: _columns(), rows: rows)
             ],
           ),
         ));
