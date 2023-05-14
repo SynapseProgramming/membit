@@ -72,13 +72,40 @@ class _DeleteCardScreenState extends State<DeleteCardScreen> {
               icon: const Icon(Icons.arrow_back)),
           title: Center(child: Text("Delete Cards")),
         ),
-        body: Center(
-          child: Container(
-            height: 550,
-            child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: DataTable(columns: _columns(), rows: rows)),
-          ),
+        body: Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                for (var entry in ticked.entries) {
+                  int id = entry.key;
+                  bool status = entry.value;
+                  print(id);
+                  print(status);
+                }
+              },
+              child: Text('Delete'),
+              style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(150, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  backgroundColor: Colors.red),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: Container(
+                height: 550,
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: DataTable(columns: _columns(), rows: rows)),
+              ),
+            ),
+          ],
         ));
   }
 }
