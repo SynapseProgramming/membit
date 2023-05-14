@@ -31,16 +31,28 @@ class _DeleteCardScreenState extends State<DeleteCardScreen> {
     const DataRow(cells: [DataCell(Text("no")), DataCell(Text("data"))])
   ];
 
+  Map<int, bool> ticked = {};
+
   Future<void> getRows(IsarDb db) async {
     Deck? nulldeck = await db.getDeck(widget.DeckName);
     Deck deck = nulldeck!;
     List<deckcard.Card> cards = await db.getCardsFor(deck);
     setState(() {
       rows.clear();
-      rows = cards
-          .map((e) =>
-              DataRow(cells: [DataCell(Text(e.front)), DataCell(Text(e.back))]))
-          .toList();
+      rows = cards.map((e) {
+        if (ticked[e.id] == null) {
+          ticked[e.id] = false;
+        }
+
+        return DataRow(
+            selected: ticked[e.id]!,
+            onSelectChanged: (bool? selected) {
+              setState(() {
+                ticked[e.id] = selected!;
+              });
+            },
+            cells: [DataCell(Text(e.front)), DataCell(Text(e.back))]);
+      }).toList();
     });
   }
 
