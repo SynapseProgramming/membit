@@ -59,9 +59,13 @@ abstract class $AppRouter extends _i5.RootStackRouter {
       );
     },
     DeleteCardRoute.name: (routeData) {
+      final args = routeData.argsAs<DeleteCardRouteArgs>();
       return _i5.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.DeleteCardScreen(),
+        child: _i4.DeleteCardScreen(
+          key: args.key,
+          DeckName: args.DeckName,
+        ),
       );
     },
     AddCardRoute.name: (routeData) {
@@ -188,16 +192,40 @@ class DeckRoute extends _i5.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.DeleteCardScreen]
-class DeleteCardRoute extends _i5.PageRouteInfo<void> {
-  const DeleteCardRoute({List<_i5.PageRouteInfo>? children})
-      : super(
+class DeleteCardRoute extends _i5.PageRouteInfo<DeleteCardRouteArgs> {
+  DeleteCardRoute({
+    _i6.Key? key,
+    required String DeckName,
+    List<_i5.PageRouteInfo>? children,
+  }) : super(
           DeleteCardRoute.name,
+          args: DeleteCardRouteArgs(
+            key: key,
+            DeckName: DeckName,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'DeleteCardRoute';
 
-  static const _i5.PageInfo<void> page = _i5.PageInfo<void>(name);
+  static const _i5.PageInfo<DeleteCardRouteArgs> page =
+      _i5.PageInfo<DeleteCardRouteArgs>(name);
+}
+
+class DeleteCardRouteArgs {
+  const DeleteCardRouteArgs({
+    this.key,
+    required this.DeckName,
+  });
+
+  final _i6.Key? key;
+
+  final String DeckName;
+
+  @override
+  String toString() {
+    return 'DeleteCardRouteArgs{key: $key, DeckName: $DeckName}';
+  }
 }
 
 /// generated route for

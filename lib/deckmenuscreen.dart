@@ -10,23 +10,64 @@ import 'package:membit/entities/card.dart' as deckcard;
 import 'package:membit/router.gr.dart';
 
 @RoutePage()
-class DeleteCardScreen extends StatelessWidget {
-  const DeleteCardScreen({super.key});
+class DeleteCardScreen extends StatefulWidget {
+  DeleteCardScreen({super.key, required this.DeckName});
+
+  final String DeckName;
+
+  @override
+  State<DeleteCardScreen> createState() => _DeleteCardScreenState();
+}
+
+class _DeleteCardScreenState extends State<DeleteCardScreen> {
+  List<DataColumn> _columns() {
+    return [
+      const DataColumn(label: Text('Front')),
+      const DataColumn(label: Text('Back'))
+    ];
+  }
+
+  List<DataRow> rows = [
+    const DataRow(cells: [DataCell(Text("no")), DataCell(Text("data"))])
+  ];
+
+  Future<void> getRows(IsarDb db) async {
+    Deck? nulldeck = await db.getDeck(widget.DeckName);
+    Deck deck = nulldeck!;
+    List<deckcard.Card> cards = await db.getCardsFor(deck);
+    setState(() {
+      rows.clear();
+      rows = cards
+          .map((e) =>
+              DataRow(cells: [DataCell(Text(e.front)), DataCell(Text(e.back))]))
+          .toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     var router = context.router;
+    final dbref = DbAccess.of(context).dbinstance;
+    getRows(dbref);
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.red,
-        leading: IconButton(
-            onPressed: () {
-              router.pop();
-            },
-            icon: const Icon(Icons.arrow_back)),
-        title: Center(child: Text("Delete Cards")),
-      ),
-    );
+        appBar: AppBar(
+          backgroundColor: Colors.red,
+          leading: IconButton(
+              onPressed: () {
+                router.pop();
+              },
+              icon: const Icon(Icons.arrow_back)),
+          title: Center(child: Text("Delete Cards")),
+        ),
+        body: Center(
+          child: Container(
+            height: 550,
+            child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: DataTable(columns: _columns(), rows: rows)),
+          ),
+        ));
   }
 }
 
@@ -221,7 +262,7 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
             actions: [
               IconButton(
                   onPressed: () {
-                    router.navigate(DeleteCardRoute());
+                    router.navigate(DeleteCardRoute(DeckName: widget.DeckName));
                   },
                   icon: const Icon(Icons.delete)),
             ],
