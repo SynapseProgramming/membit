@@ -10,6 +10,27 @@ import 'package:membit/entities/card.dart' as deckcard;
 import 'package:membit/router.gr.dart';
 
 @RoutePage()
+class DeleteCardScreen extends StatelessWidget {
+  const DeleteCardScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var router = context.router;
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.red,
+        leading: IconButton(
+            onPressed: () {
+              router.pop();
+            },
+            icon: const Icon(Icons.arrow_back)),
+        title: Center(child: Text("Delete Cards")),
+      ),
+    );
+  }
+}
+
+@RoutePage()
 class AddCardScreen extends StatefulWidget {
   const AddCardScreen({super.key, required this.DeckName});
 
@@ -198,7 +219,11 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
                 },
                 icon: const Icon(Icons.arrow_back)),
             actions: [
-              IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
+              IconButton(
+                  onPressed: () {
+                    router.navigate(DeleteCardRoute());
+                  },
+                  icon: const Icon(Icons.delete)),
             ],
             title: Center(
               child: Text(
