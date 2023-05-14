@@ -7,6 +7,32 @@ import 'package:membit/main.dart';
 import 'package:membit/router.gr.dart';
 
 @RoutePage()
+class DeleteDeckScreen extends StatefulWidget {
+  const DeleteDeckScreen({super.key});
+
+  @override
+  State<DeleteDeckScreen> createState() => _DeleteDeckScreenState();
+}
+
+class _DeleteDeckScreenState extends State<DeleteDeckScreen> {
+  @override
+  Widget build(BuildContext context) {
+    var router = context.router;
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.red,
+          leading: IconButton(
+              onPressed: () {
+                router.pop();
+              },
+              icon: const Icon(Icons.arrow_back)),
+          title: Center(child: Text("Delete Decks")),
+        ),
+        body: const Placeholder());
+  }
+}
+
+@RoutePage()
 class CreatedeckScreen extends StatefulWidget {
   const CreatedeckScreen({super.key});
 
@@ -157,7 +183,11 @@ class DeckScreen extends StatelessWidget {
                 },
                 icon: const Icon(Icons.add)),
             actions: [
-              IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
+              IconButton(
+                  onPressed: () {
+                    router.navigate(DeleteDeckRoute());
+                  },
+                  icon: const Icon(Icons.delete)),
             ],
             title: const Center(
               child: Text(

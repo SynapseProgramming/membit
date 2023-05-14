@@ -15,12 +15,13 @@ class AppRouter extends $AppRouter {
                 children: [
                   AutoRoute(
                       path: 'list', page: DeckListRoute.page, initial: true),
-                  AutoRoute(path: 'create', page: CreatedeckRoute.page)
+                  AutoRoute(path: 'create', page: CreatedeckRoute.page),
                 ],
                 initial: true),
             AutoRoute(path: 'deckmenu', page: DeckMenuRoute.page),
             AutoRoute(path: 'addcard', page: AddCardRoute.page),
-            AutoRoute(path: 'deletecard', page: DeleteCardRoute.page)
+            AutoRoute(path: 'deletecard', page: DeleteCardRoute.page),
+            AutoRoute(path: 'deletedeck', page: DeleteDeckRoute.page)
           ])
         ])
       ];
