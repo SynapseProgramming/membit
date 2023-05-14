@@ -79,12 +79,13 @@ class _DeleteCardScreenState extends State<DeleteCardScreen> {
             ),
             ElevatedButton(
               onPressed: () {
+                List<int> todelete = [];
                 for (var entry in ticked.entries) {
                   int id = entry.key;
                   bool status = entry.value;
-                  print(id);
-                  print(status);
+                  if(status==true){todelete.add(id);}
                 }
+                dbref.deleteCards(todelete);
               },
               child: Text('Delete'),
               style: ElevatedButton.styleFrom(

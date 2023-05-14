@@ -49,4 +49,9 @@ class IsarDb {
         .deck((q) => q.idEqualTo(deck.id))
         .findAll();
   }
+
+  Future<void> deleteCards(List<int> cards) async {
+    final isar = await db;
+    isar.writeTxn(() => isar.cards.deleteAll(cards));
+  }
 }
