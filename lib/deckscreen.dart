@@ -127,6 +127,8 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
   var snack = const SnackBar(content: Text("Saved Deck!"));
   final GlobalKey<FormState> _formkey = GlobalKey();
 
+  final TextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final dbref = DbAccess.of(context).dbinstance;
@@ -151,6 +153,7 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
           Container(
             width: 350,
             child: TextFormField(
+              controller: TextController,
               decoration: const InputDecoration(
                   hintText: 'Deck Name',
                   border: OutlineInputBorder(),
@@ -181,6 +184,7 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
                     Deck newdeck = Deck();
                     newdeck.name = deckName.toString();
                     dbref.saveDeck(newdeck);
+                    TextController.clear();
                     ScaffoldMessenger.of(context).showSnackBar(snack);
                   }
                 },
