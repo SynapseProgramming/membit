@@ -22,29 +22,37 @@ class _DeleteDeckScreenState extends State<DeleteDeckScreen> {
     ];
   }
 
-  List<DataRow> rows = [
-    const DataRow(cells: [DataCell(Text("no"))])
-  ];
+  // List<DataRow> rows = [
+  //   const DataRow(cells: [DataCell(Text("no"))])
+  // ];
 
-  Future<void> getRows(IsarDb db) async {
-    List<Deck> decks = await db.getAllDecks();
-    setState(() {
-      rows.clear();
-      rows = decks.map((e) {
-        if (ticked[e.id] == null) {
-          ticked[e.id] = false;
-        }
+  bool firedbefore = false;
+  List<Deck> decks = [];
 
-        return DataRow(
-            selected: ticked[e.id]!,
-            onSelectChanged: (bool? selected) {
-              setState(() {
-                ticked[e.id] = selected!;
-              });
-            },
-            cells: [DataCell(Text(e.name))]);
-      }).toList();
-    });
+  Future<void> getDecks(IsarDb db) async {
+    if (firedbefore == false) {
+      decks = await db.getAllDecks();
+      setState(() {
+        firedbefore = true;
+      });
+    }
+    // setState(() {
+    //   rows.clear();
+    //   rows = decks.map((e) {
+    //     if (ticked[e.id] == null) {
+    //       ticked[e.id] = false;
+    //     }
+
+    //     return DataRow(
+    //         selected: ticked[e.id]!,
+    //         onSelectChanged: (bool? selected) {
+    //           setState(() {
+    //             ticked[e.id] = selected!;
+    //           });
+    //         },
+    //         cells: [DataCell(Text(e.name))]);
+    //   }).toList();
+    // });
   }
 
   Map<int, bool> ticked = {};
@@ -53,7 +61,8 @@ class _DeleteDeckScreenState extends State<DeleteDeckScreen> {
   Widget build(BuildContext context) {
     var router = context.router;
     final dbref = DbAccess.of(context).dbinstance;
-    getRows(dbref);
+    print("running");
+    getDecks(dbref);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
@@ -78,6 +87,9 @@ class _DeleteDeckScreenState extends State<DeleteDeckScreen> {
                 if (status == true) {
                   todelete.add(id);
                   Deck? deckref = await dbref.getDeckById(id);
+                  //TODO: ADD IN NULL CHECKS IF SOMETHING
+                  // IS NOT SELECTED, OR IF THERE IS NOTHING TO DELETE
+
                   Deck notnulldeckref = deckref!;
                   List<deckcard.Card> deckcards =
                       await dbref.getCardsFor(notnulldeckref);
@@ -86,8 +98,11 @@ class _DeleteDeckScreenState extends State<DeleteDeckScreen> {
                 }
               }
               // delete all cards belong to that deck
+              await dbref.deleteDecks(todelete);
 
-              dbref.deleteDecks(todelete);
+              setState(() {
+                firedbefore = false;
+              });
             },
             child: Text('Delete'),
             style: ElevatedButton.styleFrom(
@@ -105,7 +120,21 @@ class _DeleteDeckScreenState extends State<DeleteDeckScreen> {
               height: 550,
               child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
-                  child: DataTable(columns: _columns(), rows: rows)),
+                  child: DataTable(
+                      columns: _columns(),
+                      rows: List.generate(decks.length, (index) {
+                        if (ticked[decks[index].id] == null) {
+                          ticked[decks[index].id] = false;
+                        }
+                        return DataRow(
+                            selected: ticked[decks[index].id]!,
+                            onSelectChanged: (bool? selected) {
+                              setState(() {
+                                ticked[decks[index].id] = selected!;
+                              });
+                            },
+                            cells: [DataCell(Text(decks[index].name))]);
+                      }))),
             ),
           ),
         ],
