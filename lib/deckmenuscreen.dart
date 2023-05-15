@@ -27,40 +27,27 @@ class _DeleteCardScreenState extends State<DeleteCardScreen> {
     ];
   }
 
-  List<DataRow> rows = [
-    const DataRow(cells: [DataCell(Text("no")), DataCell(Text("data"))])
-  ];
+  List<deckcard.Card> cards = [];
+  bool firedbefore = false;
 
   Map<int, bool> ticked = {};
 
-  Future<void> getRows(IsarDb db) async {
-    Deck? nulldeck = await db.getDeck(widget.DeckName);
-    Deck deck = nulldeck!;
-    List<deckcard.Card> cards = await db.getCardsFor(deck);
-    setState(() {
-      rows.clear();
-      rows = cards.map((e) {
-        if (ticked[e.id] == null) {
-          ticked[e.id] = false;
-        }
-
-        return DataRow(
-            selected: ticked[e.id]!,
-            onSelectChanged: (bool? selected) {
-              setState(() {
-                ticked[e.id] = selected!;
-              });
-            },
-            cells: [DataCell(Text(e.front)), DataCell(Text(e.back))]);
-      }).toList();
-    });
+  Future<void> getCards(IsarDb db) async {
+    if (firedbefore == false) {
+      Deck? nulldeck = await db.getDeck(widget.DeckName);
+      Deck deck = nulldeck!;
+      cards = await db.getCardsFor(deck);
+      setState(() {
+        firedbefore = true;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     var router = context.router;
     final dbref = DbAccess.of(context).dbinstance;
-    getRows(dbref);
+    getCards(dbref);
 
     return Scaffold(
         appBar: AppBar(
@@ -88,6 +75,9 @@ class _DeleteCardScreenState extends State<DeleteCardScreen> {
                   }
                 }
                 dbref.deleteCards(todelete);
+                setState(() {
+                  firedbefore = false;
+                });
               },
               child: Text('Delete'),
               style: ElevatedButton.styleFrom(
@@ -105,7 +95,25 @@ class _DeleteCardScreenState extends State<DeleteCardScreen> {
                 height: 550,
                 child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
-                    child: DataTable(columns: _columns(), rows: rows)),
+                    child: DataTable(
+                        columns: _columns(),
+                        rows: List.generate(cards.length, (index) {
+                          if (ticked[cards[index].id] == null) {
+                            ticked[cards[index].id] = false;
+                          }
+
+                          return DataRow(
+                              selected: ticked[cards[index].id]!,
+                              onSelectChanged: (bool? selected) {
+                                setState(() {
+                                  ticked[cards[index].id] = selected!;
+                                });
+                              },
+                              cells: [
+                                DataCell(Text(cards[index].front)),
+                                DataCell(Text(cards[index].back))
+                              ]);
+                        }))),
               ),
             ),
           ],
