@@ -322,8 +322,8 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  // Action to perform when button is pressed
-                  print("start pressed");
+                  // navigate to card show
+                  router.navigate(CardShowRoute());
                 },
                 child: Text('Start'),
                 style: ElevatedButton.styleFrom(
