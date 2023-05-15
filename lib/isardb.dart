@@ -24,10 +24,49 @@ class IsarDb {
 
   Future<void> saveDeck(Deck newDeck) async {
     final isar = await db;
-    final matchDecks = isar.decks.filter().nameMatches(newDeck.name);
+    final matchDecks = isar.decks.filter().nameMatches(newDeck.name).build();
     final has = await matchDecks.isEmpty();
     if (has) {
       isar.writeTxnSync(() => isar.decks.putSync(newDeck));
     }
+  }
+
+  Future<Deck?> getDeck(String deckName) async {
+    final isar = await db;
+    final match = isar.decks.filter().nameMatches(deckName);
+    return match.findFirst();
+  }
+
+  Future<void> saveCard(Card newCard) async {
+    final isar = await db;
+    isar.writeTxnSync(() => isar.cards.putSync(newCard));
+  }
+
+  Future<List<Card>> getCardsFor(Deck deck) async {
+    final isar = await db;
+    return await isar.cards
+        .filter()
+        .deck((q) => q.idEqualTo(deck.id))
+        .findAll();
+  }
+
+  Future<void> deleteCards(List<int> cards) async {
+    final isar = await db;
+    isar.writeTxn(() => isar.cards.deleteAll(cards));
+  }
+
+  Future<void> deleteDecks(List<int> decks) async {
+    final isar = await db;
+    isar.writeTxn(() => isar.decks.deleteAll(decks));
+  }
+
+  Future<List<Deck>> getAllDecks() async {
+    final isar = await db;
+    return await isar.decks.filter().idGreaterThan(-1).findAll();
+  }
+
+  Future<Deck?> getDeckById(int id) async {
+    final isar = await db;
+    return Future.value(await isar.decks.get(id));
   }
 }

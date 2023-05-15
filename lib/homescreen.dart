@@ -5,6 +5,6 @@ import 'package:flutter/material.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(child: Text("hello world"));
+    return const SafeArea(child: Text("hello nigga"));
   }
 }

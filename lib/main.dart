@@ -51,20 +51,15 @@ class DbAccess extends InheritedWidget {
 }
 
 @RoutePage()
-class DashboardScreen extends StatefulWidget {
+class DashboardScreen extends StatelessWidget {
   DashboardScreen({super.key});
 
   final String title = "membit";
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
-}
-
-class _DashboardScreenState extends State<DashboardScreen> {
-  @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
-      routes: const [HomeRoute(), DeckRoute()],
+      routes: const [HomeRoute(), DeckRouterRoute()],
       bottomNavigationBuilder: (_, tabsRouter) {
         return BottomNavigationBar(
           currentIndex: tabsRouter.activeIndex,
