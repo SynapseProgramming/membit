@@ -83,7 +83,9 @@ class _DeleteCardScreenState extends State<DeleteCardScreen> {
                 for (var entry in ticked.entries) {
                   int id = entry.key;
                   bool status = entry.value;
-                  if(status==true){todelete.add(id);}
+                  if (status == true) {
+                    todelete.add(id);
+                  }
                 }
                 dbref.deleteCards(todelete);
               },

@@ -15,20 +15,63 @@ class DeleteDeckScreen extends StatefulWidget {
 }
 
 class _DeleteDeckScreenState extends State<DeleteDeckScreen> {
+  List<DataColumn> _columns() {
+    return [
+      const DataColumn(label: Text('Deck')),
+    ];
+  }
+
+  List<DataRow> rows = [
+    const DataRow(cells: [DataCell(Text("no"))])
+  ];
+
+  Future<void> getRows(IsarDb db) async {
+    List<Deck> decks = await db.getAllDecks();
+    setState(() {
+      rows.clear();
+      rows = decks.map((e) {
+        if (ticked[e.id] == null) {
+          ticked[e.id] = false;
+        }
+
+        return DataRow(
+            selected: ticked[e.id]!,
+            onSelectChanged: (bool? selected) {
+              setState(() {
+                ticked[e.id] = selected!;
+              });
+            },
+            cells: [DataCell(Text(e.name))]);
+      }).toList();
+    });
+  }
+
+  Map<int, bool> ticked = {};
+
   @override
   Widget build(BuildContext context) {
     var router = context.router;
+    final dbref = DbAccess.of(context).dbinstance;
+    getRows(dbref);
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.red,
-          leading: IconButton(
-              onPressed: () {
-                router.pop();
-              },
-              icon: const Icon(Icons.arrow_back)),
-          title: Center(child: Text("Delete Decks")),
+      appBar: AppBar(
+        backgroundColor: Colors.red,
+        leading: IconButton(
+            onPressed: () {
+              router.pop();
+            },
+            icon: const Icon(Icons.arrow_back)),
+        title: Center(child: Text("Delete Decks")),
+      ),
+      body: Center(
+        child: Container(
+          height: 550,
+          child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: DataTable(columns: _columns(), rows: rows)),
         ),
-        body: const Placeholder());
+      ),
+    );
   }
 }
 
