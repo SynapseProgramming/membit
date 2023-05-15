@@ -13,6 +13,7 @@ import 'package:flutter/material.dart' as _i7;
 import 'package:membit/cardshowscreen.dart' as _i2;
 import 'package:membit/deckmenuscreen.dart' as _i4;
 import 'package:membit/deckscreen.dart' as _i5;
+import 'package:membit/entities/deck.dart' as _i8;
 import 'package:membit/homescreen.dart' as _i1;
 import 'package:membit/main.dart' as _i3;
 
@@ -28,9 +29,13 @@ abstract class $AppRouter extends _i6.RootStackRouter {
       );
     },
     CardShowRoute.name: (routeData) {
+      final args = routeData.argsAs<CardShowRouteArgs>();
       return _i6.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i2.CardShowScreen(),
+        child: _i2.CardShowScreen(
+          key: args.key,
+          currentDeck: args.currentDeck,
+        ),
       );
     },
     DashboardRoute.name: (routeData) {
@@ -120,16 +125,40 @@ class HomeRoute extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.CardShowScreen]
-class CardShowRoute extends _i6.PageRouteInfo<void> {
-  const CardShowRoute({List<_i6.PageRouteInfo>? children})
-      : super(
+class CardShowRoute extends _i6.PageRouteInfo<CardShowRouteArgs> {
+  CardShowRoute({
+    _i7.Key? key,
+    required _i8.Deck currentDeck,
+    List<_i6.PageRouteInfo>? children,
+  }) : super(
           CardShowRoute.name,
+          args: CardShowRouteArgs(
+            key: key,
+            currentDeck: currentDeck,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'CardShowRoute';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i6.PageInfo<CardShowRouteArgs> page =
+      _i6.PageInfo<CardShowRouteArgs>(name);
+}
+
+class CardShowRouteArgs {
+  const CardShowRouteArgs({
+    this.key,
+    required this.currentDeck,
+  });
+
+  final _i7.Key? key;
+
+  final _i8.Deck currentDeck;
+
+  @override
+  String toString() {
+    return 'CardShowRouteArgs{key: $key, currentDeck: $currentDeck}';
+  }
 }
 
 /// generated route for

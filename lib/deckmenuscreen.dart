@@ -321,9 +321,12 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   // navigate to card show
-                  router.navigate(CardShowRoute());
+                  Deck? currdeck = await dbref.getDeck(widget.DeckName);
+                  Deck notnulldeck = currdeck!;
+
+                  router.navigate(CardShowRoute(currentDeck: notnulldeck));
                 },
                 child: Text('Start'),
                 style: ElevatedButton.styleFrom(
