@@ -68,11 +68,48 @@ class _CardShowScreenState extends State<CardShowScreen> {
           )),
       body: Visibility(
         visible: cards.isNotEmpty,
-        child: Column(
-          children: [
-            cards.length > 0 ? Text(cards[current_index].front) : Text('0')
-          ],
-        ),
+        child: cards.length > 0
+            ? Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Center(
+                    child: Container(
+                      width: 300,
+                      height: 500,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 1.0,
+                        ),
+                      ),
+                      child: Column(children: [
+                        Text(
+                          cards[current_index].front,
+                          style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Arial',
+                            color: Colors.black,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 100,
+                        ),
+                        Text(cards[current_index].back,
+                            style: TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Arial',
+                              color: Colors.green,
+                            )),
+                      ]),
+                    ),
+                  )
+                ],
+              )
+            : Text('0'),
         replacement: const Text("NO CARDS"),
       ),
     );
