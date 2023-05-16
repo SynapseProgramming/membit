@@ -87,14 +87,14 @@ class _DeleteDeckScreenState extends State<DeleteDeckScreen> {
                 if (status == true) {
                   todelete.add(id);
                   Deck? deckref = await dbref.getDeckById(id);
-                  //TODO: ADD IN NULL CHECKS IF SOMETHING
-                  // IS NOT SELECTED, OR IF THERE IS NOTHING TO DELETE
 
-                  Deck notnulldeckref = deckref!;
-                  List<deckcard.Card> deckcards =
-                      await dbref.getCardsFor(notnulldeckref);
-                  List<int> cardids = deckcards.map((e) => e.id).toList();
-                  dbref.deleteCards(cardids);
+                  if (deckref != null) {
+                    Deck notnulldeckref = deckref;
+                    List<deckcard.Card> deckcards =
+                        await dbref.getCardsFor(notnulldeckref);
+                    List<int> cardids = deckcards.map((e) => e.id).toList();
+                    dbref.deleteCards(cardids);
+                  }
                 }
               }
               // delete all cards belong to that deck
