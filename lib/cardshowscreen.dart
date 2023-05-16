@@ -39,31 +39,28 @@ class _CardShowScreenState extends State<CardShowScreen> {
       print(kek.front);
     }
     print(cards.length);
-
-    return SafeArea(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              IconButton(
-                onPressed: () => router.pop(),
-                icon: Icon(Icons.cancel_rounded),
-                color: Colors.blue,
+    return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Colors.blue,
+          leading: IconButton(
+              onPressed: () {
+                router.pop();
+              },
+              icon: const Icon(Icons.arrow_back)),
+          title: SizedBox(
+            width: 250,
+            height: 20,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: LinearProgressIndicator(
+                value: 0.5,
+                semanticsLabel: "ok",
+                color: Colors.green,
+                backgroundColor: Colors.white,
               ),
-              SizedBox(
-                width: 250,
-                height: 20,
-                child: LinearProgressIndicator(
-                  value: 0.1,
-                  semanticsLabel: "ok",
-                  color: Colors.green,
-                  backgroundColor: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+            ),
+          )),
+      body: Column(),
     );
   }
 }
