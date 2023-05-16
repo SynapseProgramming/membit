@@ -8,9 +8,9 @@ import 'package:membit/main.dart';
 
 @RoutePage()
 class CardShowScreen extends StatefulWidget {
-  CardShowScreen({super.key, required this.currentDeck});
+  const CardShowScreen({super.key, required this.currentDeck});
 
-  late Deck currentDeck;
+  final Deck currentDeck;
 
   @override
   State<CardShowScreen> createState() => _CardShowScreenState();
@@ -19,13 +19,19 @@ class CardShowScreen extends StatefulWidget {
 class _CardShowScreenState extends State<CardShowScreen> {
   List<deckcard.Card> cards = [];
   bool fired = false;
+  int current_index = 0;
+  int state = 0;
+  double complete_ratio = 0;
 
   Future<void> getCards(IsarDb db) async {
     if (fired == false) {
-      cards.clear();
+      // cards.clear();
       cards = await db.getCardsFor(widget.currentDeck);
       setState(() {
         fired = true;
+        current_index = 0;
+        state = 0;
+        complete_ratio = 0;
       });
     }
   }
@@ -53,14 +59,22 @@ class _CardShowScreenState extends State<CardShowScreen> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: LinearProgressIndicator(
-                value: 0.5,
+                value: complete_ratio,
                 semanticsLabel: "ok",
                 color: Colors.green,
                 backgroundColor: Colors.white,
               ),
             ),
           )),
-      body: Column(),
+      body: Visibility(
+        visible: cards.isNotEmpty,
+        child: Column(
+          children: [
+            cards.length > 0 ? Text(cards[current_index].front) : Text('0')
+          ],
+        ),
+        replacement: const Text("NO CARDS"),
+      ),
     );
   }
 }
