@@ -20,7 +20,7 @@ class _CardShowScreenState extends State<CardShowScreen> {
   List<deckcard.Card> cards = [];
   bool fired = false;
   int current_index = 0;
-  int state = 0;
+  bool show = false;
   double complete_ratio = 0;
 
   Future<void> getCards(IsarDb db) async {
@@ -30,7 +30,6 @@ class _CardShowScreenState extends State<CardShowScreen> {
       setState(() {
         fired = true;
         current_index = 0;
-        state = 0;
         complete_ratio = 0;
       });
     }
@@ -75,36 +74,44 @@ class _CardShowScreenState extends State<CardShowScreen> {
                     height: 20,
                   ),
                   Center(
-                    child: Container(
-                      width: 300,
-                      height: 500,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 1.0,
-                        ),
-                      ),
-                      child: Column(children: [
-                        Text(
-                          cards[current_index].front,
-                          style: TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Arial',
+                    child: GestureDetector(
+                      onTap: () => setState(() {
+                        show = true;
+                      }),
+                      child: Container(
+                        width: 300,
+                        height: 500,
+                        decoration: BoxDecoration(
+                          border: Border.all(
                             color: Colors.black,
+                            width: 1.0,
                           ),
                         ),
-                        SizedBox(
-                          height: 100,
-                        ),
-                        Text(cards[current_index].back,
+                        child: Column(children: [
+                          Text(
+                            cards[current_index].front,
                             style: TextStyle(
                               fontSize: 40,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Arial',
-                              color: Colors.green,
-                            )),
-                      ]),
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 100,
+                          ),
+                          Visibility(
+                            visible: show,
+                            child: Text(cards[current_index].back,
+                                style: TextStyle(
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Arial',
+                                  color: Colors.green,
+                                )),
+                          ),
+                        ]),
+                      ),
                     ),
                   )
                 ],
