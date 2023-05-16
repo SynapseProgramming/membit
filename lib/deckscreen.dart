@@ -22,10 +22,6 @@ class _DeleteDeckScreenState extends State<DeleteDeckScreen> {
     ];
   }
 
-  // List<DataRow> rows = [
-  //   const DataRow(cells: [DataCell(Text("no"))])
-  // ];
-
   bool firedbefore = false;
   List<Deck> decks = [];
 
@@ -36,23 +32,6 @@ class _DeleteDeckScreenState extends State<DeleteDeckScreen> {
         firedbefore = true;
       });
     }
-    // setState(() {
-    //   rows.clear();
-    //   rows = decks.map((e) {
-    //     if (ticked[e.id] == null) {
-    //       ticked[e.id] = false;
-    //     }
-
-    //     return DataRow(
-    //         selected: ticked[e.id]!,
-    //         onSelectChanged: (bool? selected) {
-    //           setState(() {
-    //             ticked[e.id] = selected!;
-    //           });
-    //         },
-    //         cells: [DataCell(Text(e.name))]);
-    //   }).toList();
-    // });
   }
 
   Map<int, bool> ticked = {};
@@ -61,7 +40,6 @@ class _DeleteDeckScreenState extends State<DeleteDeckScreen> {
   Widget build(BuildContext context) {
     var router = context.router;
     final dbref = DbAccess.of(context).dbinstance;
-    print("running");
     getDecks(dbref);
     return Scaffold(
       appBar: AppBar(
