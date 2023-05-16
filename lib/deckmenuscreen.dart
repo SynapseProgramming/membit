@@ -65,7 +65,7 @@ class _DeleteCardScreenState extends State<DeleteCardScreen> {
               height: 20,
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 List<int> todelete = [];
                 for (var entry in ticked.entries) {
                   int id = entry.key;
@@ -74,7 +74,7 @@ class _DeleteCardScreenState extends State<DeleteCardScreen> {
                     todelete.add(id);
                   }
                 }
-                dbref.deleteCards(todelete);
+                await dbref.deleteCards(todelete);
                 setState(() {
                   firedbefore = false;
                 });
