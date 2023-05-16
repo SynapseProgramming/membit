@@ -18,10 +18,16 @@ class CardShowScreen extends StatefulWidget {
 
 class _CardShowScreenState extends State<CardShowScreen> {
   List<deckcard.Card> cards = [];
+  bool fired = false;
 
   Future<void> getCards(IsarDb db) async {
-    cards.clear();
-    cards = await db.getCardsFor(widget.currentDeck);
+    if (fired == false) {
+      cards.clear();
+      cards = await db.getCardsFor(widget.currentDeck);
+      setState(() {
+        fired = true;
+      });
+    }
   }
 
   @override
@@ -29,13 +35,33 @@ class _CardShowScreenState extends State<CardShowScreen> {
     var router = context.router;
     final dbref = DbAccess.of(context).dbinstance;
     getCards(dbref);
-    print("yay");
-    cards.forEach((element) => print(element.front));
+    for (var kek in cards) {
+      print(kek.front);
+    }
+    print(cards.length);
 
     return SafeArea(
       child: Column(
         children: [
-          ElevatedButton(onPressed: () => router.pop(), child: Text('back'))
+          Row(
+            children: [
+              IconButton(
+                onPressed: () => router.pop(),
+                icon: Icon(Icons.cancel_rounded),
+                color: Colors.blue,
+              ),
+              SizedBox(
+                width: 250,
+                height: 20,
+                child: LinearProgressIndicator(
+                  value: 0.1,
+                  semanticsLabel: "ok",
+                  color: Colors.green,
+                  backgroundColor: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
