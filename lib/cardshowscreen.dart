@@ -40,10 +40,6 @@ class _CardShowScreenState extends State<CardShowScreen> {
     var router = context.router;
     final dbref = DbAccess.of(context).dbinstance;
     getCards(dbref);
-    for (var kek in cards) {
-      print(kek.front);
-    }
-    print(cards.length);
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.blue,
