@@ -22,29 +22,16 @@ class _DeleteDeckScreenState extends State<DeleteDeckScreen> {
     ];
   }
 
-  List<DataRow> rows = [
-    const DataRow(cells: [DataCell(Text("no"))])
-  ];
+  bool firedbefore = false;
+  List<Deck> decks = [];
 
-  Future<void> getRows(IsarDb db) async {
-    List<Deck> decks = await db.getAllDecks();
-    setState(() {
-      rows.clear();
-      rows = decks.map((e) {
-        if (ticked[e.id] == null) {
-          ticked[e.id] = false;
-        }
-
-        return DataRow(
-            selected: ticked[e.id]!,
-            onSelectChanged: (bool? selected) {
-              setState(() {
-                ticked[e.id] = selected!;
-              });
-            },
-            cells: [DataCell(Text(e.name))]);
-      }).toList();
-    });
+  Future<void> getDecks(IsarDb db) async {
+    if (firedbefore == false) {
+      decks = await db.getAllDecks();
+      setState(() {
+        firedbefore = true;
+      });
+    }
   }
 
   Map<int, bool> ticked = {};
@@ -53,7 +40,7 @@ class _DeleteDeckScreenState extends State<DeleteDeckScreen> {
   Widget build(BuildContext context) {
     var router = context.router;
     final dbref = DbAccess.of(context).dbinstance;
-    getRows(dbref);
+    getDecks(dbref);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
@@ -78,16 +65,22 @@ class _DeleteDeckScreenState extends State<DeleteDeckScreen> {
                 if (status == true) {
                   todelete.add(id);
                   Deck? deckref = await dbref.getDeckById(id);
-                  Deck notnulldeckref = deckref!;
-                  List<deckcard.Card> deckcards =
-                      await dbref.getCardsFor(notnulldeckref);
-                  List<int> cardids = deckcards.map((e) => e.id).toList();
-                  dbref.deleteCards(cardids);
+
+                  if (deckref != null) {
+                    Deck notnulldeckref = deckref;
+                    List<deckcard.Card> deckcards =
+                        await dbref.getCardsFor(notnulldeckref);
+                    List<int> cardids = deckcards.map((e) => e.id).toList();
+                    dbref.deleteCards(cardids);
+                  }
                 }
               }
               // delete all cards belong to that deck
+              await dbref.deleteDecks(todelete);
 
-              dbref.deleteDecks(todelete);
+              setState(() {
+                firedbefore = false;
+              });
             },
             child: Text('Delete'),
             style: ElevatedButton.styleFrom(
@@ -105,7 +98,21 @@ class _DeleteDeckScreenState extends State<DeleteDeckScreen> {
               height: 550,
               child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
-                  child: DataTable(columns: _columns(), rows: rows)),
+                  child: DataTable(
+                      columns: _columns(),
+                      rows: List.generate(decks.length, (index) {
+                        if (ticked[decks[index].id] == null) {
+                          ticked[decks[index].id] = false;
+                        }
+                        return DataRow(
+                            selected: ticked[decks[index].id]!,
+                            onSelectChanged: (bool? selected) {
+                              setState(() {
+                                ticked[decks[index].id] = selected!;
+                              });
+                            },
+                            cells: [DataCell(Text(decks[index].name))]);
+                      }))),
             ),
           ),
         ],
@@ -126,6 +133,8 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
   String? deckName;
   var snack = const SnackBar(content: Text("Saved Deck!"));
   final GlobalKey<FormState> _formkey = GlobalKey();
+
+  final TextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -151,6 +160,7 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
           Container(
             width: 350,
             child: TextFormField(
+              controller: TextController,
               decoration: const InputDecoration(
                   hintText: 'Deck Name',
                   border: OutlineInputBorder(),
@@ -181,6 +191,7 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
                     Deck newdeck = Deck();
                     newdeck.name = deckName.toString();
                     dbref.saveDeck(newdeck);
+                    TextController.clear();
                     ScaffoldMessenger.of(context).showSnackBar(snack);
                   }
                 },

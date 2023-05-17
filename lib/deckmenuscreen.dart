@@ -27,40 +27,27 @@ class _DeleteCardScreenState extends State<DeleteCardScreen> {
     ];
   }
 
-  List<DataRow> rows = [
-    const DataRow(cells: [DataCell(Text("no")), DataCell(Text("data"))])
-  ];
+  List<deckcard.Card> cards = [];
+  bool firedbefore = false;
 
   Map<int, bool> ticked = {};
 
-  Future<void> getRows(IsarDb db) async {
-    Deck? nulldeck = await db.getDeck(widget.DeckName);
-    Deck deck = nulldeck!;
-    List<deckcard.Card> cards = await db.getCardsFor(deck);
-    setState(() {
-      rows.clear();
-      rows = cards.map((e) {
-        if (ticked[e.id] == null) {
-          ticked[e.id] = false;
-        }
-
-        return DataRow(
-            selected: ticked[e.id]!,
-            onSelectChanged: (bool? selected) {
-              setState(() {
-                ticked[e.id] = selected!;
-              });
-            },
-            cells: [DataCell(Text(e.front)), DataCell(Text(e.back))]);
-      }).toList();
-    });
+  Future<void> getCards(IsarDb db) async {
+    if (firedbefore == false) {
+      Deck? nulldeck = await db.getDeck(widget.DeckName);
+      Deck deck = nulldeck!;
+      cards = await db.getCardsFor(deck);
+      setState(() {
+        firedbefore = true;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     var router = context.router;
     final dbref = DbAccess.of(context).dbinstance;
-    getRows(dbref);
+    getCards(dbref);
 
     return Scaffold(
         appBar: AppBar(
@@ -78,7 +65,7 @@ class _DeleteCardScreenState extends State<DeleteCardScreen> {
               height: 20,
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 List<int> todelete = [];
                 for (var entry in ticked.entries) {
                   int id = entry.key;
@@ -87,7 +74,10 @@ class _DeleteCardScreenState extends State<DeleteCardScreen> {
                     todelete.add(id);
                   }
                 }
-                dbref.deleteCards(todelete);
+                await dbref.deleteCards(todelete);
+                setState(() {
+                  firedbefore = false;
+                });
               },
               child: Text('Delete'),
               style: ElevatedButton.styleFrom(
@@ -105,7 +95,25 @@ class _DeleteCardScreenState extends State<DeleteCardScreen> {
                 height: 550,
                 child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
-                    child: DataTable(columns: _columns(), rows: rows)),
+                    child: DataTable(
+                        columns: _columns(),
+                        rows: List.generate(cards.length, (index) {
+                          if (ticked[cards[index].id] == null) {
+                            ticked[cards[index].id] = false;
+                          }
+
+                          return DataRow(
+                              selected: ticked[cards[index].id]!,
+                              onSelectChanged: (bool? selected) {
+                                setState(() {
+                                  ticked[cards[index].id] = selected!;
+                                });
+                              },
+                              cells: [
+                                DataCell(Text(cards[index].front)),
+                                DataCell(Text(cards[index].back))
+                              ]);
+                        }))),
               ),
             ),
           ],
@@ -321,9 +329,12 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   // navigate to card show
-                  router.navigate(CardShowRoute());
+                  Deck? currdeck = await dbref.getDeck(widget.DeckName);
+                  Deck notnulldeck = currdeck!;
+
+                  router.navigate(CardShowRoute(currentDeck: notnulldeck));
                 },
                 child: Text('Start'),
                 style: ElevatedButton.styleFrom(
