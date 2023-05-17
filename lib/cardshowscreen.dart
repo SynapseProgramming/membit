@@ -41,27 +41,27 @@ class _CardShowScreenState extends State<CardShowScreen> {
     final dbref = DbAccess.of(context).dbinstance;
     getCards(dbref);
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.blue,
-          leading: IconButton(
-              onPressed: () {
-                router.pop();
-              },
-              icon: const Icon(Icons.arrow_back)),
-          title: SizedBox(
-            width: 250,
-            height: 20,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: LinearProgressIndicator(
-                value: complete_ratio,
-                semanticsLabel: "ok",
-                color: Colors.green,
-                backgroundColor: Colors.white,
+        appBar: AppBar(
+            backgroundColor: Colors.blue,
+            leading: IconButton(
+                onPressed: () {
+                  router.pop();
+                },
+                icon: const Icon(Icons.arrow_back)),
+            title: SizedBox(
+              width: 250,
+              height: 20,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: LinearProgressIndicator(
+                  value: complete_ratio,
+                  semanticsLabel: "ok",
+                  color: Colors.green,
+                  backgroundColor: Colors.white,
+                ),
               ),
-            ),
-          )),
-      body: Visibility(
+            )),
+        body: Visibility(
           visible: cards.isNotEmpty,
           child: cards.length > 0 && current_index < cards.length
               ? Column(
@@ -168,7 +168,22 @@ class _CardShowScreenState extends State<CardShowScreen> {
                     ],
                   ),
                 ),
-          replacement: const Text("NO CARDS")),
-    );
+          replacement: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  "No Cards!",
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Arial',
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }
