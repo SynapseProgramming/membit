@@ -5,6 +5,7 @@ import 'package:membit/entities/deck.dart';
 import 'package:membit/entities/card.dart' as deckcard;
 import 'package:membit/isardb.dart';
 import 'package:membit/main.dart';
+import 'package:membit/router.gr.dart';
 
 @RoutePage()
 class CardShowScreen extends StatefulWidget {
@@ -139,8 +140,38 @@ class _CardShowScreenState extends State<CardShowScreen> {
                     ),
                   ],
                 )
-              // TODO: the complete deck widget should have a tick, and a recommended return to home screen
-              : Text('Deck Complete!'),
+              : Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "Deck Completed!",
+                        style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Arial',
+                          color: Colors.black,
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () => {
+                          setState(
+                            () {
+                              router.navigate(const DeckRoute());
+                            },
+                          )
+                        },
+                        child: Text('return'),
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(200, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            backgroundColor: Colors.green),
+                      ),
+                    ],
+                  ),
+                ),
           replacement: const Text("NO CARDS")),
     );
   }
