@@ -42,3 +42,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# API key related
+.env.dev
+/lib/env.g.dart
+

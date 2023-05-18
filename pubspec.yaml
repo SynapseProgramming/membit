@@ -39,6 +39,8 @@ dependencies:
   isar: ^3.1.0
   isar_flutter_libs: ^3.1.0
   auto_route: ^6.4.0
+  dart_openai: ^1.9.91
+  envied: ^0.3.0+3
 
 dev_dependencies:
   flutter_test:
@@ -51,8 +53,9 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   isar_generator: ^3.1.0
-  build_runner: ^2.3.3
+  build_runner: ^2.4.4
   auto_route_generator: ^6.2.0
+  envied_generator: ^0.3.0+3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
