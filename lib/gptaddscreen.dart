@@ -29,25 +29,108 @@ class _GptAddScreenState extends State<GptAddScreen> {
     return chatCompletion.choices.first.message.content;
   }
 
+  // "Generate 10 flashcards about japanese words describing items which can be found in a school, in the following json format. Only return the json string. The front of the card should be the kanji characters, the back of the card should be the romanji of the character {'flashcards': [{'front': 'hello', 'back': 'world'},]}");
+
+  final frontTextController = TextEditingController();
+  final backTextController = TextEditingController();
+  final descTextController = TextEditingController();
+  final GlobalKey<FormState> _formkey = GlobalKey();
+
+  late String FrontName;
+  late String BackName;
+  late String DescName;
+
   @override
   Widget build(BuildContext context) {
     var router = context.router;
     return SafeArea(
-      child: Column(
-        children: [
-          ElevatedButton(
-              onPressed: () {
-                router.pop();
+      child: Form(
+        key: _formkey,
+        child: Column(children: [
+          const SizedBox(
+            height: 20,
+          ),
+          Container(
+            width: 350,
+            child: TextFormField(
+              controller: descTextController,
+              decoration: const InputDecoration(
+                  hintText: 'Description of Cards',
+                  border: OutlineInputBorder(),
+                  errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red))),
+              onChanged: (text) {
+                DescName = text;
               },
-              child: Text(widget.DeckName)),
-          ElevatedButton(
+              validator: (value) {
+                if (value != null && value.isEmpty)
+                  return "please enter some text";
+                return null;
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Container(
+            width: 350,
+            child: TextFormField(
+              controller: frontTextController,
+              decoration: const InputDecoration(
+                  hintText: 'Front Card Description',
+                  border: OutlineInputBorder(),
+                  errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red))),
+              onChanged: (text) {
+                FrontName = text;
+              },
+              validator: (value) {
+                if (value != null && value.isEmpty)
+                  return "please enter some text";
+                return null;
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Container(
+            width: 350,
+            child: TextFormField(
+              controller: backTextController,
+              decoration: const InputDecoration(
+                  hintText: 'Back Card Description',
+                  border: OutlineInputBorder(),
+                  errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red))),
+              onChanged: (text) {
+                BackName = text;
+              },
+              validator: (value) {
+                if (value != null && value.isEmpty)
+                  return "please enter some text";
+                return null;
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          ElevatedButton.icon(
               onPressed: () async {
-                String response = await completeChat(
-                    "Generate 10 flashcards about japanese words describing items which can be found in a school, in the following json format. Only return the json string. The front of the card should be the kanji characters, the back of the card should be the romanji of the character {'flashcards': [{'front': 'hello', 'back': 'world'},]}");
-                print(response);
+                bool valid = _formkey.currentState!.validate();
+                if (valid) {
+                  print(DescName);
+                  print(FrontName);
+                  print(BackName);
+                  frontTextController.clear();
+                  descTextController.clear();
+                  backTextController.clear();
+                }
               },
-              child: Text("send query"))
-        ],
+              icon: const Icon(Icons.check),
+              label: const Text("Create"))
+        ]),
       ),
     );
   }
