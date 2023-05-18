@@ -22,7 +22,8 @@ class AppRouter extends $AppRouter {
             AutoRoute(path: 'addcard', page: AddCardRoute.page),
             AutoRoute(path: 'deletecard', page: DeleteCardRoute.page),
             AutoRoute(path: 'deletedeck', page: DeleteDeckRoute.page),
-            AutoRoute(path: 'cardshow', page: CardShowRoute.page)
+            AutoRoute(path: 'cardshow', page: CardShowRoute.page),
+            AutoRoute(path: 'addgpt', page: GptAddRoute.page)
           ])
         ])
       ];

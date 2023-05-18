@@ -8,29 +8,30 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:flutter/material.dart' as _i7;
+import 'package:auto_route/auto_route.dart' as _i7;
+import 'package:flutter/material.dart' as _i8;
 import 'package:membit/cardshowscreen.dart' as _i2;
 import 'package:membit/deckmenuscreen.dart' as _i4;
 import 'package:membit/deckscreen.dart' as _i5;
-import 'package:membit/entities/deck.dart' as _i8;
+import 'package:membit/entities/deck.dart' as _i9;
+import 'package:membit/gptaddscreen.dart' as _i6;
 import 'package:membit/homescreen.dart' as _i1;
 import 'package:membit/main.dart' as _i3;
 
-abstract class $AppRouter extends _i6.RootStackRouter {
+abstract class $AppRouter extends _i7.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i6.PageFactory> pagesMap = {
+  final Map<String, _i7.PageFactory> pagesMap = {
     HomeRoute.name: (routeData) {
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i1.HomeScreen(),
       );
     },
     CardShowRoute.name: (routeData) {
       final args = routeData.argsAs<CardShowRouteArgs>();
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i2.CardShowScreen(
           key: args.key,
@@ -41,14 +42,14 @@ abstract class $AppRouter extends _i6.RootStackRouter {
     DashboardRoute.name: (routeData) {
       final args = routeData.argsAs<DashboardRouteArgs>(
           orElse: () => const DashboardRouteArgs());
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i3.DashboardScreen(key: args.key),
       );
     },
     DeleteCardRoute.name: (routeData) {
       final args = routeData.argsAs<DeleteCardRouteArgs>();
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i4.DeleteCardScreen(
           key: args.key,
@@ -58,7 +59,7 @@ abstract class $AppRouter extends _i6.RootStackRouter {
     },
     AddCardRoute.name: (routeData) {
       final args = routeData.argsAs<AddCardRouteArgs>();
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i4.AddCardScreen(
           key: args.key,
@@ -68,7 +69,7 @@ abstract class $AppRouter extends _i6.RootStackRouter {
     },
     DeckMenuRoute.name: (routeData) {
       final args = routeData.argsAs<DeckMenuRouteArgs>();
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i4.DeckMenuScreen(
           key: args.key,
@@ -77,33 +78,43 @@ abstract class $AppRouter extends _i6.RootStackRouter {
       );
     },
     DeleteDeckRoute.name: (routeData) {
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i5.DeleteDeckScreen(),
       );
     },
     CreatedeckRoute.name: (routeData) {
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i5.CreatedeckScreen(),
       );
     },
     DeckRouterRoute.name: (routeData) {
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i5.DeckRouterScreen(),
       );
     },
     DeckListRoute.name: (routeData) {
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i5.DeckListScreen(),
       );
     },
     DeckRoute.name: (routeData) {
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i5.DeckScreen(),
+      );
+    },
+    GptAddRoute.name: (routeData) {
+      final args = routeData.argsAs<GptAddRouteArgs>();
+      return _i7.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i6.GptAddScreen(
+          key: args.key,
+          DeckName: args.DeckName,
+        ),
       );
     },
   };
@@ -111,8 +122,8 @@ abstract class $AppRouter extends _i6.RootStackRouter {
 
 /// generated route for
 /// [_i1.HomeScreen]
-class HomeRoute extends _i6.PageRouteInfo<void> {
-  const HomeRoute({List<_i6.PageRouteInfo>? children})
+class HomeRoute extends _i7.PageRouteInfo<void> {
+  const HomeRoute({List<_i7.PageRouteInfo>? children})
       : super(
           HomeRoute.name,
           initialChildren: children,
@@ -120,16 +131,16 @@ class HomeRoute extends _i6.PageRouteInfo<void> {
 
   static const String name = 'HomeRoute';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i2.CardShowScreen]
-class CardShowRoute extends _i6.PageRouteInfo<CardShowRouteArgs> {
+class CardShowRoute extends _i7.PageRouteInfo<CardShowRouteArgs> {
   CardShowRoute({
-    _i7.Key? key,
-    required _i8.Deck currentDeck,
-    List<_i6.PageRouteInfo>? children,
+    _i8.Key? key,
+    required _i9.Deck currentDeck,
+    List<_i7.PageRouteInfo>? children,
   }) : super(
           CardShowRoute.name,
           args: CardShowRouteArgs(
@@ -141,8 +152,8 @@ class CardShowRoute extends _i6.PageRouteInfo<CardShowRouteArgs> {
 
   static const String name = 'CardShowRoute';
 
-  static const _i6.PageInfo<CardShowRouteArgs> page =
-      _i6.PageInfo<CardShowRouteArgs>(name);
+  static const _i7.PageInfo<CardShowRouteArgs> page =
+      _i7.PageInfo<CardShowRouteArgs>(name);
 }
 
 class CardShowRouteArgs {
@@ -151,9 +162,9 @@ class CardShowRouteArgs {
     required this.currentDeck,
   });
 
-  final _i7.Key? key;
+  final _i8.Key? key;
 
-  final _i8.Deck currentDeck;
+  final _i9.Deck currentDeck;
 
   @override
   String toString() {
@@ -163,10 +174,10 @@ class CardShowRouteArgs {
 
 /// generated route for
 /// [_i3.DashboardScreen]
-class DashboardRoute extends _i6.PageRouteInfo<DashboardRouteArgs> {
+class DashboardRoute extends _i7.PageRouteInfo<DashboardRouteArgs> {
   DashboardRoute({
-    _i7.Key? key,
-    List<_i6.PageRouteInfo>? children,
+    _i8.Key? key,
+    List<_i7.PageRouteInfo>? children,
   }) : super(
           DashboardRoute.name,
           args: DashboardRouteArgs(key: key),
@@ -175,14 +186,14 @@ class DashboardRoute extends _i6.PageRouteInfo<DashboardRouteArgs> {
 
   static const String name = 'DashboardRoute';
 
-  static const _i6.PageInfo<DashboardRouteArgs> page =
-      _i6.PageInfo<DashboardRouteArgs>(name);
+  static const _i7.PageInfo<DashboardRouteArgs> page =
+      _i7.PageInfo<DashboardRouteArgs>(name);
 }
 
 class DashboardRouteArgs {
   const DashboardRouteArgs({this.key});
 
-  final _i7.Key? key;
+  final _i8.Key? key;
 
   @override
   String toString() {
@@ -192,11 +203,11 @@ class DashboardRouteArgs {
 
 /// generated route for
 /// [_i4.DeleteCardScreen]
-class DeleteCardRoute extends _i6.PageRouteInfo<DeleteCardRouteArgs> {
+class DeleteCardRoute extends _i7.PageRouteInfo<DeleteCardRouteArgs> {
   DeleteCardRoute({
-    _i7.Key? key,
+    _i8.Key? key,
     required String DeckName,
-    List<_i6.PageRouteInfo>? children,
+    List<_i7.PageRouteInfo>? children,
   }) : super(
           DeleteCardRoute.name,
           args: DeleteCardRouteArgs(
@@ -208,8 +219,8 @@ class DeleteCardRoute extends _i6.PageRouteInfo<DeleteCardRouteArgs> {
 
   static const String name = 'DeleteCardRoute';
 
-  static const _i6.PageInfo<DeleteCardRouteArgs> page =
-      _i6.PageInfo<DeleteCardRouteArgs>(name);
+  static const _i7.PageInfo<DeleteCardRouteArgs> page =
+      _i7.PageInfo<DeleteCardRouteArgs>(name);
 }
 
 class DeleteCardRouteArgs {
@@ -218,7 +229,7 @@ class DeleteCardRouteArgs {
     required this.DeckName,
   });
 
-  final _i7.Key? key;
+  final _i8.Key? key;
 
   final String DeckName;
 
@@ -230,11 +241,11 @@ class DeleteCardRouteArgs {
 
 /// generated route for
 /// [_i4.AddCardScreen]
-class AddCardRoute extends _i6.PageRouteInfo<AddCardRouteArgs> {
+class AddCardRoute extends _i7.PageRouteInfo<AddCardRouteArgs> {
   AddCardRoute({
-    _i7.Key? key,
+    _i8.Key? key,
     required String DeckName,
-    List<_i6.PageRouteInfo>? children,
+    List<_i7.PageRouteInfo>? children,
   }) : super(
           AddCardRoute.name,
           args: AddCardRouteArgs(
@@ -246,8 +257,8 @@ class AddCardRoute extends _i6.PageRouteInfo<AddCardRouteArgs> {
 
   static const String name = 'AddCardRoute';
 
-  static const _i6.PageInfo<AddCardRouteArgs> page =
-      _i6.PageInfo<AddCardRouteArgs>(name);
+  static const _i7.PageInfo<AddCardRouteArgs> page =
+      _i7.PageInfo<AddCardRouteArgs>(name);
 }
 
 class AddCardRouteArgs {
@@ -256,7 +267,7 @@ class AddCardRouteArgs {
     required this.DeckName,
   });
 
-  final _i7.Key? key;
+  final _i8.Key? key;
 
   final String DeckName;
 
@@ -268,11 +279,11 @@ class AddCardRouteArgs {
 
 /// generated route for
 /// [_i4.DeckMenuScreen]
-class DeckMenuRoute extends _i6.PageRouteInfo<DeckMenuRouteArgs> {
+class DeckMenuRoute extends _i7.PageRouteInfo<DeckMenuRouteArgs> {
   DeckMenuRoute({
-    _i7.Key? key,
+    _i8.Key? key,
     required String DeckName,
-    List<_i6.PageRouteInfo>? children,
+    List<_i7.PageRouteInfo>? children,
   }) : super(
           DeckMenuRoute.name,
           args: DeckMenuRouteArgs(
@@ -284,8 +295,8 @@ class DeckMenuRoute extends _i6.PageRouteInfo<DeckMenuRouteArgs> {
 
   static const String name = 'DeckMenuRoute';
 
-  static const _i6.PageInfo<DeckMenuRouteArgs> page =
-      _i6.PageInfo<DeckMenuRouteArgs>(name);
+  static const _i7.PageInfo<DeckMenuRouteArgs> page =
+      _i7.PageInfo<DeckMenuRouteArgs>(name);
 }
 
 class DeckMenuRouteArgs {
@@ -294,7 +305,7 @@ class DeckMenuRouteArgs {
     required this.DeckName,
   });
 
-  final _i7.Key? key;
+  final _i8.Key? key;
 
   final String DeckName;
 
@@ -306,8 +317,8 @@ class DeckMenuRouteArgs {
 
 /// generated route for
 /// [_i5.DeleteDeckScreen]
-class DeleteDeckRoute extends _i6.PageRouteInfo<void> {
-  const DeleteDeckRoute({List<_i6.PageRouteInfo>? children})
+class DeleteDeckRoute extends _i7.PageRouteInfo<void> {
+  const DeleteDeckRoute({List<_i7.PageRouteInfo>? children})
       : super(
           DeleteDeckRoute.name,
           initialChildren: children,
@@ -315,13 +326,13 @@ class DeleteDeckRoute extends _i6.PageRouteInfo<void> {
 
   static const String name = 'DeleteDeckRoute';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i5.CreatedeckScreen]
-class CreatedeckRoute extends _i6.PageRouteInfo<void> {
-  const CreatedeckRoute({List<_i6.PageRouteInfo>? children})
+class CreatedeckRoute extends _i7.PageRouteInfo<void> {
+  const CreatedeckRoute({List<_i7.PageRouteInfo>? children})
       : super(
           CreatedeckRoute.name,
           initialChildren: children,
@@ -329,13 +340,13 @@ class CreatedeckRoute extends _i6.PageRouteInfo<void> {
 
   static const String name = 'CreatedeckRoute';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i5.DeckRouterScreen]
-class DeckRouterRoute extends _i6.PageRouteInfo<void> {
-  const DeckRouterRoute({List<_i6.PageRouteInfo>? children})
+class DeckRouterRoute extends _i7.PageRouteInfo<void> {
+  const DeckRouterRoute({List<_i7.PageRouteInfo>? children})
       : super(
           DeckRouterRoute.name,
           initialChildren: children,
@@ -343,13 +354,13 @@ class DeckRouterRoute extends _i6.PageRouteInfo<void> {
 
   static const String name = 'DeckRouterRoute';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i5.DeckListScreen]
-class DeckListRoute extends _i6.PageRouteInfo<void> {
-  const DeckListRoute({List<_i6.PageRouteInfo>? children})
+class DeckListRoute extends _i7.PageRouteInfo<void> {
+  const DeckListRoute({List<_i7.PageRouteInfo>? children})
       : super(
           DeckListRoute.name,
           initialChildren: children,
@@ -357,13 +368,13 @@ class DeckListRoute extends _i6.PageRouteInfo<void> {
 
   static const String name = 'DeckListRoute';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i5.DeckScreen]
-class DeckRoute extends _i6.PageRouteInfo<void> {
-  const DeckRoute({List<_i6.PageRouteInfo>? children})
+class DeckRoute extends _i7.PageRouteInfo<void> {
+  const DeckRoute({List<_i7.PageRouteInfo>? children})
       : super(
           DeckRoute.name,
           initialChildren: children,
@@ -371,5 +382,43 @@ class DeckRoute extends _i6.PageRouteInfo<void> {
 
   static const String name = 'DeckRoute';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i6.GptAddScreen]
+class GptAddRoute extends _i7.PageRouteInfo<GptAddRouteArgs> {
+  GptAddRoute({
+    _i8.Key? key,
+    required String DeckName,
+    List<_i7.PageRouteInfo>? children,
+  }) : super(
+          GptAddRoute.name,
+          args: GptAddRouteArgs(
+            key: key,
+            DeckName: DeckName,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'GptAddRoute';
+
+  static const _i7.PageInfo<GptAddRouteArgs> page =
+      _i7.PageInfo<GptAddRouteArgs>(name);
+}
+
+class GptAddRouteArgs {
+  const GptAddRouteArgs({
+    this.key,
+    required this.DeckName,
+  });
+
+  final _i8.Key? key;
+
+  final String DeckName;
+
+  @override
+  String toString() {
+    return 'GptAddRouteArgs{key: $key, DeckName: $DeckName}';
+  }
 }

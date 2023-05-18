@@ -358,6 +358,20 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
                     ),
                     backgroundColor: Colors.blue),
               ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  print("Add gpt pressed");
+                  router.navigate(GptAddRoute(DeckName: widget.DeckName));
+                },
+                child: Text('GPT Add'),
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(150, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    backgroundColor: Colors.purple),
+              ),
               Container(
                 height: 450,
                 child: SingleChildScrollView(
