@@ -43,95 +43,109 @@ class _GptAddScreenState extends State<GptAddScreen> {
   @override
   Widget build(BuildContext context) {
     var router = context.router;
-    return SafeArea(
-      child: Form(
-        key: _formkey,
-        child: Column(children: [
-          const SizedBox(
-            height: 20,
+
+    return Scaffold(
+        appBar: AppBar(
+            backgroundColor: Colors.blue,
+            leading: IconButton(
+                onPressed: () {
+                  router.pop();
+                },
+                icon: const Icon(Icons.arrow_back)),
+            title: Center(
+              child: Text(
+                'GPTCards',
+              ),
+            )),
+        body: Center(
+          child: Form(
+            key: _formkey,
+            child: Column(children: [
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                width: 350,
+                child: TextFormField(
+                  controller: descTextController,
+                  decoration: const InputDecoration(
+                      hintText: 'Description of Cards',
+                      border: OutlineInputBorder(),
+                      errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red))),
+                  onChanged: (text) {
+                    DescName = text;
+                  },
+                  validator: (value) {
+                    if (value != null && value.isEmpty)
+                      return "please enter some text";
+                    return null;
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                width: 350,
+                child: TextFormField(
+                  controller: frontTextController,
+                  decoration: const InputDecoration(
+                      hintText: 'Front Card Description',
+                      border: OutlineInputBorder(),
+                      errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red))),
+                  onChanged: (text) {
+                    FrontName = text;
+                  },
+                  validator: (value) {
+                    if (value != null && value.isEmpty)
+                      return "please enter some text";
+                    return null;
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                width: 350,
+                child: TextFormField(
+                  controller: backTextController,
+                  decoration: const InputDecoration(
+                      hintText: 'Back Card Description',
+                      border: OutlineInputBorder(),
+                      errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red))),
+                  onChanged: (text) {
+                    BackName = text;
+                  },
+                  validator: (value) {
+                    if (value != null && value.isEmpty)
+                      return "please enter some text";
+                    return null;
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton.icon(
+                  onPressed: () async {
+                    bool valid = _formkey.currentState!.validate();
+                    if (valid) {
+                      print(DescName);
+                      print(FrontName);
+                      print(BackName);
+                      frontTextController.clear();
+                      descTextController.clear();
+                      backTextController.clear();
+                    }
+                  },
+                  icon: const Icon(Icons.check),
+                  label: const Text("Create"))
+            ]),
           ),
-          Container(
-            width: 350,
-            child: TextFormField(
-              controller: descTextController,
-              decoration: const InputDecoration(
-                  hintText: 'Description of Cards',
-                  border: OutlineInputBorder(),
-                  errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red))),
-              onChanged: (text) {
-                DescName = text;
-              },
-              validator: (value) {
-                if (value != null && value.isEmpty)
-                  return "please enter some text";
-                return null;
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            width: 350,
-            child: TextFormField(
-              controller: frontTextController,
-              decoration: const InputDecoration(
-                  hintText: 'Front Card Description',
-                  border: OutlineInputBorder(),
-                  errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red))),
-              onChanged: (text) {
-                FrontName = text;
-              },
-              validator: (value) {
-                if (value != null && value.isEmpty)
-                  return "please enter some text";
-                return null;
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            width: 350,
-            child: TextFormField(
-              controller: backTextController,
-              decoration: const InputDecoration(
-                  hintText: 'Back Card Description',
-                  border: OutlineInputBorder(),
-                  errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red))),
-              onChanged: (text) {
-                BackName = text;
-              },
-              validator: (value) {
-                if (value != null && value.isEmpty)
-                  return "please enter some text";
-                return null;
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          ElevatedButton.icon(
-              onPressed: () async {
-                bool valid = _formkey.currentState!.validate();
-                if (valid) {
-                  print(DescName);
-                  print(FrontName);
-                  print(BackName);
-                  frontTextController.clear();
-                  descTextController.clear();
-                  backTextController.clear();
-                }
-              },
-              icon: const Icon(Icons.check),
-              label: const Text("Create"))
-        ]),
-      ),
-    );
+        ));
   }
 }
