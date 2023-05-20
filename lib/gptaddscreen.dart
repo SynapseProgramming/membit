@@ -161,10 +161,16 @@ class _GptAddScreenState extends State<GptAddScreen> {
                   onPressed: () async {
                     bool valid = _formkey.currentState!.validate();
                     if (valid) {
-                      print(DescName);
-                      print(FrontName);
-                      print(BackName);
-                      print(selectedcards);
+                      String request = "Generate ";
+                      request += selectedcards.toString();
+                      request += " flashcards about ";
+                      request += DescName;
+                      request +=
+                          ",in the following json format. {'flashcards': [{'front': 'hello', 'back': 'world'},]}  Only return the json string. The front of the card should be ";
+                      request += FrontName;
+                      request += ", the back of the card should be ";
+                      request += BackName;
+                      print(request);
                       frontTextController.clear();
                       descTextController.clear();
                       backTextController.clear();
