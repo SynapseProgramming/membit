@@ -40,6 +40,9 @@ class _GptAddScreenState extends State<GptAddScreen> {
   late String BackName;
   late String DescName;
 
+  List<int> cardno = [5, 10, 15, 20];
+  int selectedcards = 5;
+
   @override
   Widget build(BuildContext context) {
     var router = context.router;
@@ -130,6 +133,30 @@ class _GptAddScreenState extends State<GptAddScreen> {
               const SizedBox(
                 height: 20,
               ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 40,
+                  ),
+                  Text("Number of cards"),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  DropdownButton<int>(
+                      value: selectedcards,
+                      onChanged: (value) {
+                        setState(
+                          () {
+                            selectedcards = value!;
+                          },
+                        );
+                      },
+                      items: cardno.map<DropdownMenuItem<int>>((e) {
+                        return DropdownMenuItem<int>(
+                            value: e, child: Text(e.toString()));
+                      }).toList()),
+                ],
+              ),
               ElevatedButton.icon(
                   onPressed: () async {
                     bool valid = _formkey.currentState!.validate();
@@ -137,6 +164,7 @@ class _GptAddScreenState extends State<GptAddScreen> {
                       print(DescName);
                       print(FrontName);
                       print(BackName);
+                      print(selectedcards);
                       frontTextController.clear();
                       descTextController.clear();
                       backTextController.clear();
