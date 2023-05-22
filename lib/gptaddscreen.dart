@@ -168,7 +168,7 @@ class _GptAddScreenState extends State<GptAddScreen> {
                       request += " flashcards about ";
                       request += DescName;
                       request +=
-                          ",in the following json format. {'flashcards': [{'front': 'hello', 'back': 'world'},]}  Only return the json string. The front of the card should be ";
+                          ",in the following json format. {\"flashcards': [{\"front\": \"hello\", \"back\": \"world\"},]}  Only return the json string. The front of the card should be ";
                       request += FrontName;
                       request += ", the back of the card should be ";
                       request += BackName;
