@@ -42,6 +42,11 @@ class IsarDb {
     isar.writeTxnSync(() => isar.cards.putSync(newCard));
   }
 
+  Future<void> saveCards(List<Card> cards) async {
+    final isar = await db;
+    isar.writeTxnSync(() => isar.cards.putAll(cards));
+  }
+
   Future<List<Card>> getCardsFor(Deck deck) async {
     final isar = await db;
     return await isar.cards
