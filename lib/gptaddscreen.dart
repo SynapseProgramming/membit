@@ -2,8 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:dart_openai/openai.dart';
 import 'package:membit/cardjson.dart';
+import 'package:membit/entities/deck.dart';
 import 'package:membit/env.dart';
+
+import 'package:membit/entities/card.dart' as deckcard;
 import 'dart:convert';
+
+import 'package:membit/main.dart';
 
 @RoutePage()
 class GptAddScreen extends StatefulWidget {
@@ -48,6 +53,7 @@ class _GptAddScreenState extends State<GptAddScreen> {
   @override
   Widget build(BuildContext context) {
     var router = context.router;
+    final dbref = DbAccess.of(context).dbinstance;
 
     return Scaffold(
         appBar: AppBar(
@@ -179,6 +185,21 @@ class _GptAddScreenState extends State<GptAddScreen> {
                       final parsedJson = jsonDecode(response);
                       FlashCardsJson obj = FlashCardsJson.fromJson(parsedJson);
                       List<CardJson> test = obj.cards;
+
+                      Deck? deckRef = await dbref.getDeck(widget.DeckName);
+                      Deck notnullref = deckRef!;
+                      List<deckcard.Card> cards = test.map((e) {
+                        deckcard.Card newcard = deckcard.Card()
+                          ..front = e.front
+                          ..back = e.back
+                          ..difficulty = 1
+                          ..deck.value = notnullref;
+                        return newcard;
+                      }).toList();
+                      for (var card in cards) {
+                        await dbref.saveCard(card);
+                      }
+
                       for (var x in test) {
                         print(x.front);
                         print(x.back);
