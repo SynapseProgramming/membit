@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:dart_openai/openai.dart';
+import 'package:membit/cardjson.dart';
 import 'package:membit/env.dart';
+import 'dart:convert';
 
 @RoutePage()
 class GptAddScreen extends StatefulWidget {
@@ -171,6 +173,17 @@ class _GptAddScreenState extends State<GptAddScreen> {
                       request += ", the back of the card should be ";
                       request += BackName;
                       print(request);
+                      String response = await completeChat(request);
+                      print(response);
+                      // TODO: add exception handling for parsed Json
+                      final parsedJson = jsonDecode(response);
+                      FlashCardsJson obj = FlashCardsJson.fromJson(parsedJson);
+                      List<CardJson> test = obj.cards;
+                      for (var x in test) {
+                        print(x.front);
+                        print(x.back);
+                      }
+
                       frontTextController.clear();
                       descTextController.clear();
                       backTextController.clear();
