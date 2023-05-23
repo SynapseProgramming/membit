@@ -24,6 +24,7 @@ class GptAddScreen extends StatefulWidget {
 
 class _GptAddScreenState extends State<GptAddScreen> {
   Future<String> completeChat(String message) async {
+    // TODO: catch any exceptions here (request failed exception)
     final chatCompletion = await OpenAI.instance.chat.create(
       model: 'gpt-3.5-turbo',
       messages: [
@@ -184,25 +185,19 @@ class _GptAddScreenState extends State<GptAddScreen> {
                       // TODO: add exception handling for parsed Json
                       final parsedJson = jsonDecode(response);
                       FlashCardsJson obj = FlashCardsJson.fromJson(parsedJson);
-                      List<CardJson> test = obj.cards;
+                      List<CardJson> jsoncards = obj.cards;
 
                       Deck? deckRef = await dbref.getDeck(widget.DeckName);
                       Deck notnullref = deckRef!;
-                      List<deckcard.Card> cards = test.map((e) {
-                        deckcard.Card newcard = deckcard.Card()
-                          ..front = e.front
-                          ..back = e.back
-                          ..difficulty = 1
-                          ..deck.value = notnullref;
-                        return newcard;
-                      }).toList();
+                      List<deckcard.Card> cards = jsoncards
+                          .map((e) => deckcard.Card()
+                            ..front = e.front
+                            ..back = e.back
+                            ..difficulty = 1
+                            ..deck.value = notnullref)
+                          .toList();
                       for (var card in cards) {
                         await dbref.saveCard(card);
-                      }
-
-                      for (var x in test) {
-                        print(x.front);
-                        print(x.back);
                       }
 
                       frontTextController.clear();
