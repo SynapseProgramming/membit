@@ -25,16 +25,21 @@ class GptAddScreen extends StatefulWidget {
 class _GptAddScreenState extends State<GptAddScreen> {
   Future<String> completeChat(String message) async {
     // TODO: catch any exceptions here (request failed exception)
-    final chatCompletion = await OpenAI.instance.chat.create(
-      model: 'gpt-3.5-turbo',
-      messages: [
-        OpenAIChatCompletionChoiceMessageModel(
-          content: message,
-          role: OpenAIChatMessageRole.user,
-        ),
-      ],
-    );
-    return chatCompletion.choices.first.message.content;
+    try {
+      final chatCompletion = await OpenAI.instance.chat.create(
+        model: 'gpt-3.5-turbo',
+        messages: [
+          OpenAIChatCompletionChoiceMessageModel(
+            content: message,
+            role: OpenAIChatMessageRole.user,
+          ),
+        ],
+      );
+
+      return chatCompletion.choices.first.message.content;
+    } catch (e) {
+      return Future.value("error");
+    }
   }
 
   // "Generate 10 flashcards about japanese words describing items which can be found in a school, in the following json format. Only return the json string. The front of the card should be the kanji characters, the back of the card should be the romanji of the character {'flashcards': [{'front': 'hello', 'back': 'world'},]}");
@@ -50,6 +55,32 @@ class _GptAddScreenState extends State<GptAddScreen> {
 
   List<int> cardno = [5, 10, 15, 20];
   int selectedcards = 5;
+
+  void gptwarning() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('GPT Error'),
+        content: const Text(
+            'GPT failed to return a valid response. Keep current inputs ?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Yes'),
+            child: const Text('Yes'),
+          ),
+          TextButton(
+            onPressed: () {
+              frontTextController.clear();
+              descTextController.clear();
+              backTextController.clear();
+              Navigator.pop(context, 'No');
+            },
+            child: const Text('No'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -182,27 +213,31 @@ class _GptAddScreenState extends State<GptAddScreen> {
                       print(request);
                       String response = await completeChat(request);
                       print(response);
-                      // TODO: add exception handling for parsed Json
-                      final parsedJson = jsonDecode(response);
-                      FlashCardsJson obj = FlashCardsJson.fromJson(parsedJson);
-                      List<CardJson> jsoncards = obj.cards;
+                      try {
+                        final parsedJson = jsonDecode(response);
+                        FlashCardsJson obj =
+                            FlashCardsJson.fromJson(parsedJson);
+                        List<CardJson> jsoncards = obj.cards;
 
-                      Deck? deckRef = await dbref.getDeck(widget.DeckName);
-                      Deck notnullref = deckRef!;
-                      List<deckcard.Card> cards = jsoncards
-                          .map((e) => deckcard.Card()
-                            ..front = e.front
-                            ..back = e.back
-                            ..difficulty = 1
-                            ..deck.value = notnullref)
-                          .toList();
-                      for (var card in cards) {
-                        await dbref.saveCard(card);
+                        Deck? deckRef = await dbref.getDeck(widget.DeckName);
+                        Deck notnullref = deckRef!;
+                        List<deckcard.Card> cards = jsoncards
+                            .map((e) => deckcard.Card()
+                              ..front = e.front
+                              ..back = e.back
+                              ..difficulty = 1
+                              ..deck.value = notnullref)
+                            .toList();
+                        for (var card in cards) {
+                          await dbref.saveCard(card);
+                        }
+
+                        frontTextController.clear();
+                        descTextController.clear();
+                        backTextController.clear();
+                      } catch (e) {
+                        gptwarning();
                       }
-
-                      frontTextController.clear();
-                      descTextController.clear();
-                      backTextController.clear();
                     }
                   },
                   icon: const Icon(Icons.check),
