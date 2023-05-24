@@ -13,6 +13,7 @@ import 'package:flutter/material.dart' as _i8;
 import 'package:membit/cardshowscreen.dart' as _i2;
 import 'package:membit/deckmenuscreen.dart' as _i4;
 import 'package:membit/deckscreen.dart' as _i5;
+import 'package:membit/entities/card.dart' as _i10;
 import 'package:membit/entities/deck.dart' as _i9;
 import 'package:membit/gptaddscreen.dart' as _i6;
 import 'package:membit/homescreen.dart' as _i1;
@@ -113,6 +114,17 @@ abstract class $AppRouter extends _i7.RootStackRouter {
         routeData: routeData,
         child: _i6.GptAddScreen(
           key: args.key,
+          DeckName: args.DeckName,
+        ),
+      );
+    },
+    GeneratedCardRoute.name: (routeData) {
+      final args = routeData.argsAs<GeneratedCardRouteArgs>();
+      return _i7.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i6.GeneratedCardScreen(
+          key: args.key,
+          cards: args.cards,
           DeckName: args.DeckName,
         ),
       );
@@ -420,5 +432,48 @@ class GptAddRouteArgs {
   @override
   String toString() {
     return 'GptAddRouteArgs{key: $key, DeckName: $DeckName}';
+  }
+}
+
+/// generated route for
+/// [_i6.GeneratedCardScreen]
+class GeneratedCardRoute extends _i7.PageRouteInfo<GeneratedCardRouteArgs> {
+  GeneratedCardRoute({
+    _i8.Key? key,
+    required List<_i10.Card> cards,
+    required String DeckName,
+    List<_i7.PageRouteInfo>? children,
+  }) : super(
+          GeneratedCardRoute.name,
+          args: GeneratedCardRouteArgs(
+            key: key,
+            cards: cards,
+            DeckName: DeckName,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'GeneratedCardRoute';
+
+  static const _i7.PageInfo<GeneratedCardRouteArgs> page =
+      _i7.PageInfo<GeneratedCardRouteArgs>(name);
+}
+
+class GeneratedCardRouteArgs {
+  const GeneratedCardRouteArgs({
+    this.key,
+    required this.cards,
+    required this.DeckName,
+  });
+
+  final _i8.Key? key;
+
+  final List<_i10.Card> cards;
+
+  final String DeckName;
+
+  @override
+  String toString() {
+    return 'GeneratedCardRouteArgs{key: $key, cards: $cards, DeckName: $DeckName}';
   }
 }

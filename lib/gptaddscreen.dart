@@ -9,6 +9,7 @@ import 'package:membit/entities/card.dart' as deckcard;
 import 'dart:convert';
 
 import 'package:membit/main.dart';
+import 'package:membit/router.gr.dart';
 
 @RoutePage()
 class GptAddScreen extends StatefulWidget {
@@ -41,8 +42,6 @@ class _GptAddScreenState extends State<GptAddScreen> {
       return Future.value("error");
     }
   }
-
-  // "Generate 10 flashcards about japanese words describing items which can be found in a school, in the following json format. Only return the json string. The front of the card should be the kanji characters, the back of the card should be the romanji of the character {'flashcards': [{'front': 'hello', 'back': 'world'},]}");
 
   final frontTextController = TextEditingController();
   final backTextController = TextEditingController();
@@ -235,6 +234,8 @@ class _GptAddScreenState extends State<GptAddScreen> {
                         frontTextController.clear();
                         descTextController.clear();
                         backTextController.clear();
+                        router.navigate(GeneratedCardRoute(
+                            cards: cards, DeckName: widget.DeckName));
                       } catch (e) {
                         gptwarning();
                       }
@@ -245,5 +246,19 @@ class _GptAddScreenState extends State<GptAddScreen> {
             ]),
           ),
         ));
+  }
+}
+
+@RoutePage()
+class GeneratedCardScreen extends StatelessWidget {
+  const GeneratedCardScreen(
+      {super.key, required this.cards, required this.DeckName});
+
+  final List<deckcard.Card> cards;
+  final String DeckName;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(child: Text(DeckName));
   }
 }
