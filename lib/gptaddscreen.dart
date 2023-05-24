@@ -54,6 +54,8 @@ class _GptAddScreenState extends State<GptAddScreen> {
   late String BackName;
   late String DescName;
 
+  var snack = const SnackBar(content: Text("Request sent to GPT!"));
+
   List<int> cardno = [5, 10, 15, 20];
   int selectedcards = 5;
 
@@ -92,9 +94,11 @@ class _GptAddScreenState extends State<GptAddScreen> {
         appBar: AppBar(
             backgroundColor: Colors.blue,
             leading: IconButton(
-                onPressed: () {
-                  router.pop();
-                },
+                onPressed: buttonpressed
+                    ? null
+                    : () {
+                        router.pop();
+                      },
                 icon: const Icon(Icons.arrow_back)),
             title: Center(
               child: Text(
@@ -217,6 +221,7 @@ class _GptAddScreenState extends State<GptAddScreen> {
                             request += ", the back of the card should be ";
                             request += BackName;
                             print(request);
+                            ScaffoldMessenger.of(context).showSnackBar(snack);
                             String response = await completeChat(request);
                             print(response);
                             try {
