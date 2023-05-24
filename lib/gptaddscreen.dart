@@ -48,6 +48,7 @@ class _GptAddScreenState extends State<GptAddScreen> {
   final backTextController = TextEditingController();
   final descTextController = TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey();
+  bool buttonpressed = false;
 
   late String FrontName;
   late String BackName;
@@ -198,47 +199,59 @@ class _GptAddScreenState extends State<GptAddScreen> {
                 ],
               ),
               ElevatedButton.icon(
-                  onPressed: () async {
-                    bool valid = _formkey.currentState!.validate();
-                    if (valid) {
-                      String request = "Generate ";
-                      request += selectedcards.toString();
-                      request += " flashcards about ";
-                      request += DescName;
-                      request +=
-                          ",in the following json format. {\"flashcards': [{\"front\": \"hello\", \"back\": \"world\"},]}  Only return the json string. The front of the card should be ";
-                      request += FrontName;
-                      request += ", the back of the card should be ";
-                      request += BackName;
-                      print(request);
-                      String response = await completeChat(request);
-                      print(response);
-                      try {
-                        final parsedJson = jsonDecode(response);
-                        FlashCardsJson obj =
-                            FlashCardsJson.fromJson(parsedJson);
-                        List<CardJson> jsoncards = obj.cards;
+                  onPressed: buttonpressed
+                      ? null
+                      : () async {
+                          bool valid = _formkey.currentState!.validate();
+                          if (valid) {
+                            setState(() {
+                              buttonpressed = true;
+                            });
+                            String request = "Generate ";
+                            request += selectedcards.toString();
+                            request += " flashcards about ";
+                            request += DescName;
+                            request +=
+                                ",in the following json format. {\"flashcards': [{\"front\": \"hello\", \"back\": \"world\"},]}  Only return the json string. The front of the card should be ";
+                            request += FrontName;
+                            request += ", the back of the card should be ";
+                            request += BackName;
+                            print(request);
+                            String response = await completeChat(request);
+                            print(response);
+                            try {
+                              final parsedJson = jsonDecode(response);
+                              FlashCardsJson obj =
+                                  FlashCardsJson.fromJson(parsedJson);
+                              List<CardJson> jsoncards = obj.cards;
 
-                        Deck? deckRef = await dbref.getDeck(widget.DeckName);
-                        Deck notnullref = deckRef!;
-                        List<deckcard.Card> cards = jsoncards
-                            .map((e) => deckcard.Card()
-                              ..front = e.front
-                              ..back = e.back
-                              ..difficulty = 1
-                              ..deck.value = notnullref)
-                            .toList();
+                              Deck? deckRef =
+                                  await dbref.getDeck(widget.DeckName);
+                              Deck notnullref = deckRef!;
+                              List<deckcard.Card> cards = jsoncards
+                                  .map((e) => deckcard.Card()
+                                    ..front = e.front
+                                    ..back = e.back
+                                    ..difficulty = 1
+                                    ..deck.value = notnullref)
+                                  .toList();
 
-                        frontTextController.clear();
-                        descTextController.clear();
-                        backTextController.clear();
-                        router.navigate(GeneratedCardRoute(
-                            cards: cards, DeckName: widget.DeckName));
-                      } catch (e) {
-                        gptwarning();
-                      }
-                    }
-                  },
+                              frontTextController.clear();
+                              descTextController.clear();
+                              backTextController.clear();
+                              setState(() {
+                                buttonpressed = false;
+                              });
+                              router.navigate(GeneratedCardRoute(
+                                  cards: cards, DeckName: widget.DeckName));
+                            } catch (e) {
+                              gptwarning();
+                              setState(() {
+                                buttonpressed = false;
+                              });
+                            }
+                          }
+                        },
                   icon: const Icon(Icons.check),
                   label: const Text("Create"))
             ]),
