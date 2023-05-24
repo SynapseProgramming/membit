@@ -6,6 +6,7 @@ import 'package:membit/entities/deck.dart';
 import 'package:membit/env.dart';
 
 import 'package:membit/entities/card.dart' as deckcard;
+import 'package:membit/isardb.dart';
 import 'dart:convert';
 
 import 'package:membit/main.dart';
@@ -227,9 +228,6 @@ class _GptAddScreenState extends State<GptAddScreen> {
                               ..difficulty = 1
                               ..deck.value = notnullref)
                             .toList();
-                        for (var card in cards) {
-                          await dbref.saveCard(card);
-                        }
 
                         frontTextController.clear();
                         descTextController.clear();
@@ -250,7 +248,7 @@ class _GptAddScreenState extends State<GptAddScreen> {
 }
 
 @RoutePage()
-class GeneratedCardScreen extends StatelessWidget {
+class GeneratedCardScreen extends StatefulWidget {
   const GeneratedCardScreen(
       {super.key, required this.cards, required this.DeckName});
 
@@ -258,7 +256,79 @@ class GeneratedCardScreen extends StatelessWidget {
   final String DeckName;
 
   @override
+  State<GeneratedCardScreen> createState() => _GeneratedCardScreenState();
+}
+
+class _GeneratedCardScreenState extends State<GeneratedCardScreen> {
+  List<DataColumn> _columns() {
+    return [
+      const DataColumn(label: Text('Front')),
+      const DataColumn(label: Text('Back'))
+    ];
+  }
+
+  List<DataRow> rows = [
+    const DataRow(cells: [DataCell(Text("no")), DataCell(Text("data"))])
+  ];
+
+  void getRows() {
+    setState(() {
+      rows.clear();
+      rows = widget.cards
+          .map((e) =>
+              DataRow(cells: [DataCell(Text(e.front)), DataCell(Text(e.back))]))
+          .toList();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Text(DeckName));
+    var router = context.router;
+    final dbref = DbAccess.of(context).dbinstance;
+    getRows();
+    return Scaffold(
+      appBar: AppBar(
+          title: Center(
+        child: Text("Generated Cards"),
+      )),
+      body: Center(
+          child: Column(
+        children: [
+          Container(
+            height: 450,
+            child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: DataTable(columns: _columns(), rows: rows)),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () async {
+                  for (var card in widget.cards) {
+                    await dbref.saveCard(card);
+                  }
+                  router.popUntilRouteWithPath("deckmenu");
+                },
+                icon: const Icon(Icons.check),
+                label: const Text("Add"),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+              ),
+              SizedBox(
+                width: 30,
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  router.pop();
+                },
+                icon: const Icon(Icons.cancel),
+                label: const Text("Cancel"),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              )
+            ],
+          )
+        ],
+      )),
+    );
   }
 }
