@@ -75,38 +75,41 @@ class _CardShowScreenState extends State<CardShowScreen> {
                           show = true;
                         }),
                         child: Container(
-                          width: 300,
-                          height: 500,
+                          width: 400,
+                          height: 600,
                           decoration: BoxDecoration(
                             border: Border.all(
                               color: Colors.black,
                               width: 1.0,
                             ),
                           ),
-                          child: Column(children: [
-                            Text(
-                              cards[current_index].front,
-                              style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Arial',
-                                color: Colors.black,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Column(children: [
+                              Text(
+                                cards[current_index].front,
+                                style: TextStyle(
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Arial',
+                                  color: Colors.black,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 100,
-                            ),
-                            Visibility(
-                              visible: show,
-                              child: Text(cards[current_index].back,
-                                  style: TextStyle(
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Arial',
-                                    color: Colors.green,
-                                  )),
-                            ),
-                          ]),
+                              SizedBox(
+                                height: 100,
+                              ),
+                              Visibility(
+                                visible: show,
+                                child: Text(cards[current_index].back,
+                                    style: TextStyle(
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Arial',
+                                      color: Colors.green,
+                                    )),
+                              ),
+                            ]),
+                          ),
                         ),
                       ),
                     ),
