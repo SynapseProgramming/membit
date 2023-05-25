@@ -76,7 +76,7 @@ class _CardShowScreenState extends State<CardShowScreen> {
                         }),
                         child: Container(
                           width: 400,
-                          height: 600,
+                          height: 400,
                           decoration: BoxDecoration(
                             border: Border.all(
                               color: Colors.black,
