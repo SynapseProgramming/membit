@@ -53,25 +53,32 @@ class _CardShowScreenState extends State<CardShowScreen> {
     getCards(dbref);
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.blue,
-            leading: IconButton(
-                onPressed: () {
-                  router.pop();
-                },
-                icon: const Icon(Icons.arrow_back)),
-            title: SizedBox(
-              width: 250,
-              height: 20,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: LinearProgressIndicator(
-                  value: complete_ratio,
-                  semanticsLabel: "ok",
-                  color: Colors.green,
-                  backgroundColor: Colors.white,
-                ),
+          backgroundColor: Colors.blue,
+          leading: IconButton(
+              onPressed: () {
+                router.pop();
+              },
+              icon: const Icon(Icons.arrow_back)),
+          title: SizedBox(
+            width: 250,
+            height: 20,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: LinearProgressIndicator(
+                value: complete_ratio,
+                semanticsLabel: "ok",
+                color: Colors.green,
+                backgroundColor: Colors.white,
               ),
-            )),
+            ),
+          ),
+          actions: [
+            Center(
+                child: Text((current_index + 1).toString() +
+                    "/" +
+                    (cards.length + 1).toString()))
+          ],
+        ),
         body: Visibility(
           visible: cards.isNotEmpty,
           child: cards.length > 0 && current_index < cards.length
