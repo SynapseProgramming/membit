@@ -132,7 +132,11 @@ class _CardShowScreenState extends State<CardShowScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
+                                deckcard.Card currentcard =
+                                    cards[current_index];
+                                currentcard.difficulty = 1;
+                                dbref.saveCard(currentcard);
                                 nextCard();
                               },
                               child: Text('Easy'),
@@ -147,7 +151,12 @@ class _CardShowScreenState extends State<CardShowScreen> {
                               width: 20,
                             ),
                             ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
+                                deckcard.Card currentcard =
+                                    cards[current_index];
+                                currentcard.difficulty = 3;
+                                dbref.saveCard(currentcard);
+
                                 nextCard();
                               },
                               child: Text('Hard'),
