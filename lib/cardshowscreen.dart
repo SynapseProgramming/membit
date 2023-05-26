@@ -86,12 +86,12 @@ class _CardShowScreenState extends State<CardShowScreen> {
                           show = true;
                         }),
                         child: Container(
-                          width: 400,
-                          height: 400,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height - 310,
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Colors.black,
-                              width: 1.0,
+                              color: Colors.white,
+                              width: 0.00001,
                             ),
                           ),
                           child: FittedBox(
