@@ -35,6 +35,16 @@ class _CardShowScreenState extends State<CardShowScreen> {
     }
   }
 
+  void nextCard() {
+    setState(
+      () {
+        show = false;
+        current_index++;
+        complete_ratio = current_index / cards.length;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var router = context.router;
@@ -117,26 +127,39 @@ class _CardShowScreenState extends State<CardShowScreen> {
                       height: 20,
                     ),
                     Visibility(
-                      visible: show,
-                      child: ElevatedButton(
-                        onPressed: () => {
-                          setState(
-                            () {
-                              show = false;
-                              current_index++;
-                              complete_ratio = current_index / cards.length;
-                            },
-                          )
-                        },
-                        child: Text('next'),
-                        style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(200, 50),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                        visible: show,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                nextCard();
+                              },
+                              child: Text('Easy'),
+                              style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(120, 60),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  backgroundColor: Colors.green),
                             ),
-                            backgroundColor: Colors.green),
-                      ),
-                    ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                nextCard();
+                              },
+                              child: Text('Hard'),
+                              style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(120, 60),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  backgroundColor: Colors.orange),
+                            ),
+                          ],
+                        )),
                   ],
                 )
               : Center(
