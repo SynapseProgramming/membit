@@ -27,6 +27,7 @@ class _CardShowScreenState extends State<CardShowScreen> {
   Future<void> getCards(IsarDb db) async {
     if (fired == false) {
       cards = await db.getCardsFor(widget.currentDeck);
+      cards.sort((a, b) => b.difficulty.compareTo(a.difficulty));
       setState(() {
         fired = true;
         current_index = 0;
