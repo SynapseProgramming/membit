@@ -243,7 +243,6 @@ class _AddCardScreenState extends State<AddCardScreen> {
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    print("kek");
                     router.pop();
                   },
                   icon: const Icon(Icons.cancel),
@@ -474,7 +473,6 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  print("Add cards pressed");
                   router.navigate(AddCardRoute(DeckName: widget.DeckName));
                 },
                 child: Text('Add Cards'),
@@ -488,7 +486,6 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  print("Add gpt pressed");
                   router.navigate(GptAddRoute(DeckName: widget.DeckName));
                 },
                 child: Text('GPT Add'),

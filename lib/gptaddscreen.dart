@@ -219,10 +219,8 @@ class _GptAddScreenState extends State<GptAddScreen> {
                             request += FrontName;
                             request += ", the back of the card should be ";
                             request += BackName;
-                            print(request);
                             ScaffoldMessenger.of(context).showSnackBar(snack);
                             String response = await completeChat(request);
-                            print(response);
                             try {
                               final parsedJson = jsonDecode(response);
                               FlashCardsJson obj =
