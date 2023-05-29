@@ -26,7 +26,6 @@ class GptAddScreen extends StatefulWidget {
 
 class _GptAddScreenState extends State<GptAddScreen> {
   Future<String> completeChat(String message) async {
-    // TODO: catch any exceptions here (request failed exception)
     try {
       final chatCompletion = await OpenAI.instance.chat.create(
         model: 'gpt-3.5-turbo',
