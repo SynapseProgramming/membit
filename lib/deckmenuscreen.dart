@@ -269,12 +269,104 @@ class EditCardScreen extends StatefulWidget {
 }
 
 class _EditCardScreenState extends State<EditCardScreen> {
+  final GlobalKey<FormState> _formkey = GlobalKey();
+
+  late String FrontName = widget.card.front;
+  late String BackName = widget.card.back;
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Column(
-      children: [Text(widget.card.front), Text(widget.card.back)],
-    ));
+    final frontTextController = TextEditingController(text: widget.card.front);
+    final backTextController = TextEditingController(text: widget.card.back);
+    final dbref = DbAccess.of(context).dbinstance;
+    var router = context.router;
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        title: Center(
+          child: Text('Edit Card'),
+        ),
+      ),
+      body: Center(
+          child: Form(
+        key: _formkey,
+        child: Column(children: [
+          const SizedBox(
+            height: 20,
+          ),
+          Text("Front Card"),
+          Container(
+            width: 350,
+            child: TextFormField(
+              controller: frontTextController,
+              decoration: const InputDecoration(
+                  hintText: "New Front",
+                  border: OutlineInputBorder(),
+                  errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red))),
+              onChanged: (text) {
+                FrontName = text;
+              },
+              validator: (value) {
+                if (value != null && value.isEmpty)
+                  return "please enter some text";
+                return null;
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Text("Back Card"),
+          Container(
+            width: 350,
+            child: TextFormField(
+              controller: backTextController,
+              decoration: const InputDecoration(
+                  hintText: "New Back",
+                  border: OutlineInputBorder(),
+                  errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red))),
+              onChanged: (text) {
+                BackName = text;
+              },
+              validator: (value) {
+                if (value != null && value.isEmpty)
+                  return "please enter some text";
+                return null;
+              },
+            ),
+          ),
+          ElevatedButton.icon(
+            onPressed: () async {
+              bool valid = _formkey.currentState!.validate();
+              if (valid) {
+                // update given card
+                deckcard.Card current = widget.card;
+                current.front = FrontName;
+                current.back = BackName;
+                await dbref.saveCard(current);
+                router.pop();
+              }
+            },
+            icon: const Icon(Icons.check),
+            label: const Text("Save Changes"),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+          ),
+          const SizedBox(
+            width: 30,
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              router.pop();
+            },
+            icon: const Icon(Icons.cancel),
+            label: const Text("Cancel"),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+          )
+        ]),
+      )),
+    );
   }
 }
 
