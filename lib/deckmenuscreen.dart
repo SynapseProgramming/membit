@@ -273,12 +273,20 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
   List<DataColumn> _columns() {
     return [
       const DataColumn(label: Text('Front')),
-      const DataColumn(label: Text('Back'))
+      const DataColumn(label: Text('Back')),
+      const DataColumn(label: Text('Edit'))
     ];
   }
 
   List<DataRow> rows = [
-    const DataRow(cells: [DataCell(Text("no")), DataCell(Text("data"))])
+    DataRow(cells: [
+      DataCell(Text("no")),
+      DataCell(Text("data")),
+      DataCell(IconButton(
+        icon: Icon(Icons.edit),
+        onPressed: () => null,
+      ))
+    ])
   ];
 
   Future<void> getRows(IsarDb db) async {
@@ -288,8 +296,14 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
     setState(() {
       rows.clear();
       rows = cards
-          .map((e) =>
-              DataRow(cells: [DataCell(Text(e.front)), DataCell(Text(e.back))]))
+          .map((e) => DataRow(cells: [
+                DataCell(Text(e.front)),
+                DataCell(Text(e.back)),
+                DataCell(IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () => print("pressed"),
+                ))
+              ]))
           .toList();
     });
   }
