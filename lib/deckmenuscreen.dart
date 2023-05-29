@@ -260,6 +260,25 @@ class _AddCardScreenState extends State<AddCardScreen> {
 }
 
 @RoutePage()
+class EditCardScreen extends StatefulWidget {
+  const EditCardScreen({super.key, required this.card});
+  final deckcard.Card card;
+
+  @override
+  State<EditCardScreen> createState() => _EditCardScreenState();
+}
+
+class _EditCardScreenState extends State<EditCardScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Column(
+      children: [Text(widget.card.front), Text(widget.card.back)],
+    ));
+  }
+}
+
+@RoutePage()
 class DeckMenuScreen extends StatefulWidget {
   DeckMenuScreen({super.key, required this.DeckName});
 
@@ -289,7 +308,7 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
     ])
   ];
 
-  Future<void> getRows(IsarDb db) async {
+  Future<void> getRows(IsarDb db, StackRouter router) async {
     Deck? nulldeck = await db.getDeck(widget.DeckName);
     Deck deck = nulldeck!;
     List<deckcard.Card> cards = await db.getCardsFor(deck);
@@ -301,7 +320,9 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
                 DataCell(Text(e.back)),
                 DataCell(IconButton(
                   icon: Icon(Icons.edit),
-                  onPressed: () => print("pressed"),
+                  onPressed: () {
+                    router.navigate(EditCardRoute(card: e));
+                  },
                 ))
               ]))
           .toList();
@@ -313,7 +334,7 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
     final router = context.router;
     final dbref = DbAccess.of(context).dbinstance;
 
-    getRows(dbref);
+    getRows(dbref, router);
 
     return Scaffold(
         appBar: AppBar(
