@@ -485,6 +485,40 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
+                onPressed: () async {
+                  showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Flip Cards'),
+                      content: const Text(
+                          'Do you wish to flip the front and back cards?'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context, 'Yes');
+                          },
+                          child: const Text('Yes'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context, 'No');
+                          },
+                          child: const Text('No'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                child: Text('Flip Cards'),
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(150, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    backgroundColor: Colors.pink),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
                 onPressed: () {
                   router.navigate(GptAddRoute(DeckName: widget.DeckName));
                 },
