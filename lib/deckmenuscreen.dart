@@ -494,7 +494,18 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
                           'Do you wish to flip the front and back cards?'),
                       actions: <Widget>[
                         TextButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            Deck? nulldeck =
+                                await dbref.getDeck(widget.DeckName);
+                            Deck deck = nulldeck!;
+                            List<deckcard.Card> cards =
+                                await dbref.getCardsFor(deck);
+                            for (deckcard.Card cd in cards) {
+                              String temp = cd.front;
+                              cd.front = cd.back;
+                              cd.back = temp;
+                              await dbref.saveCard(cd);
+                            }
                             Navigator.pop(context, 'Yes');
                           },
                           child: const Text('Yes'),
