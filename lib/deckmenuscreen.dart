@@ -454,92 +454,106 @@ class _DeckMenuScreenState extends State<DeckMenuScreen> {
               Text(widget.DeckName,
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () async {
-                  // navigate to card show
-                  Deck? currdeck = await dbref.getDeck(widget.DeckName);
-                  Deck notnulldeck = currdeck!;
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      // navigate to card show
+                      Deck? currdeck = await dbref.getDeck(widget.DeckName);
+                      Deck notnulldeck = currdeck!;
 
-                  router.navigate(CardShowRoute(currentDeck: notnulldeck));
-                },
-                child: Text('Start'),
-                style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(150, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    backgroundColor: Colors.green),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  router.navigate(AddCardRoute(DeckName: widget.DeckName));
-                },
-                child: Text('Add Cards'),
-                style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(150, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    backgroundColor: Colors.blue),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () async {
-                  showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Flip Cards'),
-                      content: const Text(
-                          'Do you wish to flip the front and back cards?'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () async {
-                            Deck? nulldeck =
-                                await dbref.getDeck(widget.DeckName);
-                            Deck deck = nulldeck!;
-                            List<deckcard.Card> cards =
-                                await dbref.getCardsFor(deck);
-                            for (deckcard.Card cd in cards) {
-                              String temp = cd.front;
-                              cd.front = cd.back;
-                              cd.back = temp;
-                              await dbref.saveCard(cd);
-                            }
-                            Navigator.pop(context, 'Yes');
-                          },
-                          child: const Text('Yes'),
+                      router.navigate(CardShowRoute(currentDeck: notnulldeck));
+                    },
+                    child: Text('Start'),
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(150, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context, 'No');
-                          },
-                          child: const Text('No'),
+                        backgroundColor: Colors.green),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Flip Cards'),
+                          content: const Text(
+                              'Do you wish to flip the front and back cards?'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () async {
+                                Deck? nulldeck =
+                                    await dbref.getDeck(widget.DeckName);
+                                Deck deck = nulldeck!;
+                                List<deckcard.Card> cards =
+                                    await dbref.getCardsFor(deck);
+                                for (deckcard.Card cd in cards) {
+                                  String temp = cd.front;
+                                  cd.front = cd.back;
+                                  cd.back = temp;
+                                  await dbref.saveCard(cd);
+                                }
+                                Navigator.pop(context, 'Yes');
+                              },
+                              child: const Text('Yes'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context, 'No');
+                              },
+                              child: const Text('No'),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
-                },
-                child: Text('Flip Cards'),
-                style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(150, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    backgroundColor: Colors.pink),
+                      );
+                    },
+                    child: Text('Flip Cards'),
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(150, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        backgroundColor: Colors.pink),
+                  )
+                ],
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  router.navigate(GptAddRoute(DeckName: widget.DeckName));
-                },
-                child: Text('GPT Add'),
-                style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(150, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    backgroundColor: Colors.purple),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      router.navigate(AddCardRoute(DeckName: widget.DeckName));
+                    },
+                    child: Text('Add Cards'),
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(150, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        backgroundColor: Colors.blue),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      router.navigate(GptAddRoute(DeckName: widget.DeckName));
+                    },
+                    child: Text('GPT Add'),
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(150, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        backgroundColor: Colors.purple),
+                  )
+                ],
               ),
               Expanded(
                 child: SingleChildScrollView(
