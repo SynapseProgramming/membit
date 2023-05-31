@@ -27,12 +27,23 @@ class _CardShowScreenState extends State<CardShowScreen> {
   Future<void> getCards(IsarDb db) async {
     if (fired == false) {
       cards = await db.getCardsFor(widget.currentDeck);
+      cards.sort((a, b) => b.difficulty.compareTo(a.difficulty));
       setState(() {
         fired = true;
         current_index = 0;
         complete_ratio = 0;
       });
     }
+  }
+
+  void nextCard() {
+    setState(
+      () {
+        show = false;
+        current_index++;
+        complete_ratio = current_index / cards.length;
+      },
+    );
   }
 
   @override
@@ -42,25 +53,32 @@ class _CardShowScreenState extends State<CardShowScreen> {
     getCards(dbref);
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.blue,
-            leading: IconButton(
-                onPressed: () {
-                  router.pop();
-                },
-                icon: const Icon(Icons.arrow_back)),
-            title: SizedBox(
-              width: 250,
-              height: 20,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: LinearProgressIndicator(
-                  value: complete_ratio,
-                  semanticsLabel: "ok",
-                  color: Colors.green,
-                  backgroundColor: Colors.white,
-                ),
+          backgroundColor: Colors.blue,
+          leading: IconButton(
+              onPressed: () {
+                router.pop();
+              },
+              icon: const Icon(Icons.arrow_back)),
+          title: SizedBox(
+            width: 250,
+            height: 20,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: LinearProgressIndicator(
+                value: complete_ratio,
+                semanticsLabel: "ok",
+                color: Colors.green,
+                backgroundColor: Colors.white,
               ),
-            )),
+            ),
+          ),
+          actions: [
+            Center(
+                child: Text((current_index + 1).toString() +
+                    "/" +
+                    (cards.length + 1).toString()))
+          ],
+        ),
         body: Visibility(
           visible: cards.isNotEmpty,
           child: cards.length > 0 && current_index < cards.length
@@ -75,12 +93,12 @@ class _CardShowScreenState extends State<CardShowScreen> {
                           show = true;
                         }),
                         child: Container(
-                          width: 400,
-                          height: 600,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height - 310,
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Colors.black,
-                              width: 1.0,
+                              color: Colors.white,
+                              width: 0.00001,
                             ),
                           ),
                           child: FittedBox(
@@ -117,26 +135,48 @@ class _CardShowScreenState extends State<CardShowScreen> {
                       height: 20,
                     ),
                     Visibility(
-                      visible: show,
-                      child: ElevatedButton(
-                        onPressed: () => {
-                          setState(
-                            () {
-                              show = false;
-                              current_index++;
-                              complete_ratio = current_index / cards.length;
-                            },
-                          )
-                        },
-                        child: Text('next'),
-                        style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(200, 50),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                        visible: show,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () async {
+                                deckcard.Card currentcard =
+                                    cards[current_index];
+                                currentcard.difficulty = 1;
+                                dbref.saveCard(currentcard);
+                                nextCard();
+                              },
+                              child: Text('Easy'),
+                              style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(120, 60),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  backgroundColor: Colors.green),
                             ),
-                            backgroundColor: Colors.green),
-                      ),
-                    ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                deckcard.Card currentcard =
+                                    cards[current_index];
+                                currentcard.difficulty = 3;
+                                dbref.saveCard(currentcard);
+
+                                nextCard();
+                              },
+                              child: Text('Hard'),
+                              style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(120, 60),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  backgroundColor: Colors.orange),
+                            ),
+                          ],
+                        )),
                   ],
                 )
               : Center(

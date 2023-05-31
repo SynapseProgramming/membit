@@ -26,7 +26,6 @@ class GptAddScreen extends StatefulWidget {
 
 class _GptAddScreenState extends State<GptAddScreen> {
   Future<String> completeChat(String message) async {
-    // TODO: catch any exceptions here (request failed exception)
     try {
       final chatCompletion = await OpenAI.instance.chat.create(
         model: 'gpt-3.5-turbo',
@@ -220,10 +219,8 @@ class _GptAddScreenState extends State<GptAddScreen> {
                             request += FrontName;
                             request += ", the back of the card should be ";
                             request += BackName;
-                            print(request);
                             ScaffoldMessenger.of(context).showSnackBar(snack);
                             String response = await completeChat(request);
-                            print(response);
                             try {
                               final parsedJson = jsonDecode(response);
                               FlashCardsJson obj =

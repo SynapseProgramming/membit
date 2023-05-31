@@ -68,6 +68,16 @@ abstract class $AppRouter extends _i7.RootStackRouter {
         ),
       );
     },
+    EditCardRoute.name: (routeData) {
+      final args = routeData.argsAs<EditCardRouteArgs>();
+      return _i7.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i4.EditCardScreen(
+          key: args.key,
+          card: args.card,
+        ),
+      );
+    },
     DeckMenuRoute.name: (routeData) {
       final args = routeData.argsAs<DeckMenuRouteArgs>();
       return _i7.AutoRoutePage<dynamic>(
@@ -286,6 +296,44 @@ class AddCardRouteArgs {
   @override
   String toString() {
     return 'AddCardRouteArgs{key: $key, DeckName: $DeckName}';
+  }
+}
+
+/// generated route for
+/// [_i4.EditCardScreen]
+class EditCardRoute extends _i7.PageRouteInfo<EditCardRouteArgs> {
+  EditCardRoute({
+    _i8.Key? key,
+    required _i10.Card card,
+    List<_i7.PageRouteInfo>? children,
+  }) : super(
+          EditCardRoute.name,
+          args: EditCardRouteArgs(
+            key: key,
+            card: card,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'EditCardRoute';
+
+  static const _i7.PageInfo<EditCardRouteArgs> page =
+      _i7.PageInfo<EditCardRouteArgs>(name);
+}
+
+class EditCardRouteArgs {
+  const EditCardRouteArgs({
+    this.key,
+    required this.card,
+  });
+
+  final _i8.Key? key;
+
+  final _i10.Card card;
+
+  @override
+  String toString() {
+    return 'EditCardRouteArgs{key: $key, card: $card}';
   }
 }
 
