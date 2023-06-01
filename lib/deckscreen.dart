@@ -190,6 +190,7 @@ class _CreatedeckScreenState extends State<CreatedeckScreen> {
                   if (valid) {
                     Deck newdeck = Deck();
                     newdeck.name = deckName.toString();
+                    newdeck.date = DateTime.now();
                     dbref.saveDeck(newdeck);
                     TextController.clear();
                     ScaffoldMessenger.of(context).showSnackBar(snack);
