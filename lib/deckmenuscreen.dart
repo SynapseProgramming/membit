@@ -147,8 +147,12 @@ class _AddCardScreenState extends State<AddCardScreen> {
     final frontTextController = TextEditingController();
     final backTextController = TextEditingController();
 
-    return SafeArea(
-      child: Form(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        title: const Text("Add Cards"),
+      ),
+      body: Form(
         key: _formkey,
         child: Column(
           children: [
