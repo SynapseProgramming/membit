@@ -193,12 +193,14 @@ class _CardShowScreenState extends State<CardShowScreen> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () => {
-                          setState(
-                            () {
-                              router.navigate(const DeckRoute());
-                            },
-                          )
+                        onPressed: () async {
+                          //TODO: deck should update date
+                          // TODO: calendar should be updated with todays date
+                          final currentdate = DateTime.now();
+                          widget.currentDeck.date = currentdate;
+                          dbref.saveDeck(widget.currentDeck);
+
+                          router.navigate(const DeckRoute());
                         },
                         child: Text('return'),
                         style: ElevatedButton.styleFrom(
