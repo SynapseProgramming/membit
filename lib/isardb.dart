@@ -24,11 +24,7 @@ class IsarDb {
 
   Future<void> saveDeck(Deck newDeck) async {
     final isar = await db;
-    final matchDecks = isar.decks.filter().nameMatches(newDeck.name).build();
-    final has = await matchDecks.isEmpty();
-    if (has) {
-      isar.writeTxnSync(() => isar.decks.putSync(newDeck));
-    }
+    isar.writeTxnSync(() => isar.decks.putSync(newDeck));
   }
 
   Future<Deck?> getDeck(String deckName) async {
