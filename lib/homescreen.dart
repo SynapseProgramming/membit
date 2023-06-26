@@ -12,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.month;
+  Set<DateTime> test = {DateTime.utc(2023, 6, 8), DateTime.utc(2023, 6, 11)};
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +34,21 @@ class _HomeScreenState extends State<HomeScreen> {
             });
           }
         },
+        calendarBuilders: CalendarBuilders(
+          rangeHighlightBuilder: (context, da, day) {
+            print(da.weekday);
+            if (test.contains(da)) {
+              return Container(
+                width: 10,
+                height: 10,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.blue,
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
